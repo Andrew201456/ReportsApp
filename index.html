@@ -3,201 +3,307 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DP Construction | Luxury Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#17243a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>DP Construction | Προσφορές</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
     <style>
         :root {
-            --main: #1e293b;
-            --accent: #f97316;
-            --light-bg: #f8fafc;
+            --main: #17243a;
+            --main-2: #243752;
+            --accent: #d49a45;
+            --accent-soft: #fbf4e9;
+            --ink: #182235;
+            --muted: #718096;
+            --line: #e6eaf0;
+            --surface: #ffffff;
+            --canvas: #f3f5f8;
+            --danger: #c24141;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
+        * { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #e2e8f0;
-            padding: 10px;
             margin: 0;
+            padding: 18px 14px calc(150px + var(--safe-bottom));
+            background:
+                radial-gradient(ellipse at top left, rgba(212,154,69,.10), transparent 38%),
+                var(--canvas);
+            color: var(--ink);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 650px;
-            margin: 20px auto;
-            padding-bottom: 120px;
+        .container { width: 100%; max-width: 720px; margin: 0 auto; }
+        .header-ui { text-align: center; margin-bottom: 18px; }
+        .header-ui h2 {
+            margin: 6px 0 4px;
+            color: var(--main);
+            font-size: 25px;
+            line-height: 1.15;
+            font-weight: 850;
+            letter-spacing: 3px;
+        }
+        .header-ui h2::after {
+            content: "";
+            display: block;
+            width: 42px;
+            height: 3px;
+            margin: 13px auto 0;
+            border-radius: 9px;
+            background: var(--accent);
         }
 
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: var(--surface);
+            padding: 22px;
+            margin: 0 0 16px;
+            border: 1px solid rgba(226,232,240,.9);
+            border-radius: 22px;
+            box-shadow: 0 8px 28px rgba(23,36,58,.055);
         }
-
-        .header-ui {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header-ui img {
-            width: 120px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .card h3 {
+            color: var(--main) !important;
+            font-size: 15px !important;
+            letter-spacing: .35px;
+            line-height: 1.4;
         }
 
         .logo-box {
-            border: 2px dashed #cbd5e1;
-            padding: 20px;
-            text-align: center;
-            border-radius: 15px;
-            background: var(--light-bg);
+            min-height: 132px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 18px;
+            border: 1.5px dashed #d6dce5;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #fbfcfe, #f5f7fa);
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color .2s, background .2s;
+        }
+        .logo-box:active { border-color: var(--accent); background: var(--accent-soft); }
+        .logo-box img {
+            display: block;
+            width: auto;
+            max-width: min(100%, 210px) !important;
+            max-height: 78px;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: none !important;
+        }
+        .logo-box span {
+            color: var(--muted) !important;
+            font-size: 11px !important;
+            font-weight: 750;
+            letter-spacing: .7px;
         }
 
         label {
             display: block;
-            font-size: 11px;
+            margin: 19px 0 8px;
+            color: #536176;
+            font-size: 10px;
             font-weight: 800;
-            color: #475569;
+            letter-spacing: 1.05px;
             text-transform: uppercase;
-            margin: 15px 0 5px;
-            letter-spacing: 1px;
         }
-
-        input,
-        textarea {
+        input, textarea {
+            display: block;
             width: 100%;
-            padding: 15px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 12px;
-            box-sizing: border-box;
+            min-width: 0;
+            padding: 15px 14px;
+            border: 1.5px solid var(--line);
+            border-radius: 13px;
+            background: #fbfcfe;
+            color: var(--ink);
+            font: inherit;
             font-size: 16px;
-            background: #fff;
-            transition: all 0.2s;
-        }
-
-        input:focus {
-            border-color: var(--accent);
+            line-height: 1.4;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+            box-shadow: none;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: border-color .18s, box-shadow .18s, background .18s;
         }
+        input:focus, textarea:focus {
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(212,154,69,.13);
+        }
+        input::placeholder, textarea::placeholder { color: #a2acba; }
+        input[type="date"] { min-height: 51px; }
+        input[type="number"] { font-variant-numeric: tabular-nums; }
+        textarea { resize: vertical; min-height: 105px; }
+        input[type="file"] { display: none; }
 
         .line-item {
-            border-left: 8px solid var(--main);
             position: relative;
-            animation: slideIn 0.3s ease-out;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            animation: slideIn .25s ease-out;
         }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .line-item label:first-of-type { padding-right: 76px; margin-top: 3px; }
+        .line-item textarea { min-height: 116px; line-height: 1.55 !important; }
+        .line-item > div[style*="display:flex"] {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px !important;
         }
-
+        .line-item > div[style*="display:flex"] > div { min-width: 0; }
+        .line-item > div[style*="display:flex"] label { margin-top: 14px; }
         .remove-btn {
             position: absolute;
-            right: 20px;
-            top: 20px;
-            color: #ef4444;
+            top: 17px;
+            right: 17px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            padding: 7px 11px;
+            border: 1px solid #f2dada;
+            border-radius: 10px;
+            background: #fff8f8;
+            color: var(--danger);
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: .4px;
             cursor: pointer;
-            font-size: 11px;
-            font-weight: 800;
-            border: 1px solid #fee2e2;
-            padding: 5px 10px;
-            border-radius: 8px;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        button {
+            min-height: 52px;
+            font: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
         .btn-add {
             width: 100%;
-            background: var(--main);
-            color: white;
-            padding: 18px;
-            border: none;
+            padding: 16px 18px;
+            border: 1px solid #2d405d;
             border-radius: 15px;
-            font-weight: bold;
+            background: var(--main);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 850;
+            letter-spacing: .5px;
+            box-shadow: 0 7px 18px rgba(23,36,58,.15);
             cursor: pointer;
-            font-size: 15px;
-            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
         }
-
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 20px 30px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .total-amount {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--main);
-        }
-
-        .btn-pdf {
-            background: #16a34a;
-            color: white;
-            padding: 16px 35px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.4);
-        }
+        .btn-add:active, .btn-pdf:active { transform: scale(.985); }
 
         .term-row {
             display: flex;
             align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 12px;
-            padding: 10px;
-            border-radius: 10px;
-            transition: background 0.2s;
+            gap: 12px;
+            margin: 0 0 10px;
+            padding: 12px;
+            border: 1px solid #edf0f4;
+            border-radius: 14px;
+            background: #fbfcfe;
         }
-
-        .term-row:hover {
-            background: #f1f5f9;
-        }
-
         .term-checkbox {
+            flex: 0 0 22px;
             width: 22px;
             height: 22px;
-            margin-top: 5px;
-            cursor: pointer;
+            margin: 3px 0 0;
+            padding: 0;
+            border-radius: 6px;
             accent-color: var(--accent);
         }
-
         .term-text {
             flex: 1;
-            min-height: 40px;
-            padding: 10px;
+            min-height: 72px;
+            padding: 10px 11px;
+            border-radius: 10px;
+            background: #fff;
             font-size: 14px;
-            line-height: 1.4;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            resize: vertical;
+            line-height: 1.5;
         }
 
-        .term-text:focus {
-            border-color: var(--accent);
-            outline: none;
+        .footer-nav {
+            position: fixed;
+            z-index: 1000;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 13px max(18px, calc((100vw - 720px) / 2)) calc(13px + var(--safe-bottom));
+            border-top: 1px solid rgba(226,232,240,.9);
+            background: rgba(255,255,255,.94);
+            -webkit-backdrop-filter: saturate(180%) blur(18px);
+            backdrop-filter: saturate(180%) blur(18px);
+            box-shadow: 0 -8px 28px rgba(23,36,58,.07);
+        }
+        .footer-nav > div { min-width: 0; }
+        .footer-nav label {
+            margin: 0 0 4px;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: .7px;
+            white-space: nowrap;
+        }
+        .total-amount {
+            color: var(--main);
+            font-size: clamp(20px, 5vw, 27px);
+            font-weight: 900;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .btn-pdf {
+            flex: 0 0 auto;
+            max-width: 58%;
+            padding: 13px 17px;
+            border: 0;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1b8b5a, #137447);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 850;
+            line-height: 1.25;
+            box-shadow: 0 6px 16px rgba(19,116,71,.22);
+            cursor: pointer;
+        }
+
+        @media (min-width: 700px) {
+            body { padding-top: 30px; }
+            .card { padding: 26px; }
+            .footer-nav { padding-left: max(28px, calc((100vw - 720px) / 2)); padding-right: max(28px, calc((100vw - 720px) / 2)); }
+            .btn-pdf { max-width: none; padding: 15px 25px; font-size: 13px; }
+        }
+        @media (max-width: 420px) {
+            body { padding: 12px 10px calc(145px + var(--safe-bottom)); }
+            .header-ui h2 { font-size: 23px; }
+            .card { padding: 17px; border-radius: 19px; }
+            .line-item { padding: 16px; }
+            .line-item > div[style*="display:flex"] { gap: 9px !important; }
+            .footer-nav { gap: 10px; padding-right: 12px; padding-left: 12px; }
+            .footer-nav label { font-size: 8px; }
+            .total-amount { font-size: 21px; }
+            .btn-pdf { max-width: 55%; min-height: 50px; padding: 10px 11px; font-size: 10px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
         }
     </style>
+
     <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
     <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
     <meta property="og:type" content="website" data-id="th-modified">
@@ -251,31 +357,46 @@
     </div>
 
     <script>
-        let logoBase64 = "";
-        let logoBottomLeftBase64 = "";
+        // Το λογότυπο αποθηκεύεται τοπικά στον browser μετά την πρώτη μεταφόρτωση.
+        let logoBase64 = '';
+        let logoBottomLeftBase64 = '';
 
-        // Initialize logo preview with current logoBase64
-        document.addEventListener('DOMContentLoaded', () => {
-            const preview = document.getElementById('logoPreview');
-            if (logoBase64 && logoBase64 !== '') {
-                preview.src = logoBase64;
-            }
-        });
-
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const base64String = e.target.result;
-                    logoBase64 = base64String;
-                    document.getElementById('logoPreview').src = base64String;
-                };
-                reader.readAsDataURL(file);
+        function loadSavedLogo() {
+            try {
+                logoBase64 = localStorage.getItem('dpConstructionLogo') || '';
+                logoBottomLeftBase64 = logoBase64;
+                if (logoBase64) {
+                    document.getElementById('logoPreview').src = logoBase64;
+                }
+            } catch (error) {
+                console.warn('Δεν ήταν δυνατή η ανάκτηση του αποθηκευμένου logo:', error);
             }
         }
 
-        // Logo update UI removed as requested. Base64 is hardcoded above.
+        function handleLogoUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Παρακαλώ επίλεξε ένα αρχείο εικόνας.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64String = e.target.result;
+                logoBase64 = base64String;
+                logoBottomLeftBase64 = base64String;
+                document.getElementById('logoPreview').src = base64String;
+
+                try {
+                    localStorage.setItem('dpConstructionLogo', base64String);
+                } catch (error) {
+                    alert('Το logo φορτώθηκε, αλλά δεν ήταν δυνατή η μόνιμη αποθήκευσή του στον browser. Δοκίμασε μικρότερη εικόνα.');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
 
         function addLine(text = '') {
             const id = Date.now() + Math.floor(Math.random() * 1000);
@@ -455,7 +576,7 @@
                         margin: [0, 50, 0, 0],
                         columns: [
                             {
-                                stack: [getLogo(logoBottomLeftBase64, 100, 'left')]
+                                stack: [getLogo(logoBottomLeftBase64 || logoBase64, 100, 'left')]
                             },
                             {
                                 stack: [
@@ -472,7 +593,15 @@
             };
 
             try {
-                pdfMake.createPdf(docDef).download("ΠΡΟΣΦΟΡΑ_" + title + ".pdf");
+                const pdf = pdfMake.createPdf(docDef);
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                if (isIOS) {
+                    // Στο iOS Safari το άνοιγμα του PDF είναι πιο αξιόπιστο από το forced download.
+                    pdf.open();
+                } else {
+                    pdf.download("ΠΡΟΣΦΟΡΑ_" + title + ".pdf");
+                }
             } catch (e) {
                 console.error("PDF generation failed:", e);
                 alert("Υπήρξε σφάλμα στην παραγωγή του PDF. Θα γίνει προσπάθεια λήψης χωρίς εικόνες.");
@@ -505,6 +634,7 @@
 
         window.onload = function () {
 
+            loadSavedLogo();
             const defaults = [
                 "Σετ γηπέδου PADEL αποτελούμενο από μεταλλικά πλαίσια διατομής RHS 100X50X2 ,RHS 40X40X2 γαλβανιζέ. Η κατασκευή θα είναι βαμμένη με ηλεκτροστατική βαφή σε RAL της επιλογής σας .Χρήση 4 μεταλλικών στηλών 6m ,διατομής RHS 100X50X2 .Περιλαμβάνει 8 προβολείς των 200 watt και τάπητα PRO PADEL TURF",
                 "Αναλώσιμα για την τοποθέτηση του τάπητα (κόλλα , ταινίες, χαλαζιακή άμμος)",
@@ -524,7 +654,12 @@
             defaultTerms.forEach(text => addTerm(text));
 
             // Set default date to today
-            const today = new Date().toISOString().split('T')[0];
+            const now = new Date();
+            const today = [
+                now.getFullYear(),
+                String(now.getMonth() + 1).padStart(2, '0'),
+                String(now.getDate()).padStart(2, '0')
+            ].join('-');
             document.getElementById('offerDate').value = today;
         };
     </script>
