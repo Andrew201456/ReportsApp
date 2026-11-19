@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP Construction | Luxury Edition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <style>
+        :root {
+            --main: #1e293b;
+            --accent: #f97316;
+            --light-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #e2e8f0;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            padding-bottom: 120px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header-ui {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-ui img {
+            width: 120px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-box {
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            background: var(--light-bg);
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #475569;
+            text-transform: uppercase;
+            margin: 15px 0 5px;
+            letter-spacing: 1px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .line-item {
+            border-left: 8px solid var(--main);
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remove-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+            border: 1px solid #fee2e2;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .btn-add {
+            width: 100%;
+            background: var(--main);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+        }
+
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .total-amount {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--main);
+        }
+
+        .btn-pdf {
+            background: #16a34a;
+            color: white;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.4);
+        }
+
+        .term-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .term-row:hover {
+            background: #f1f5f9;
+        }
+
+        .term-checkbox {
+            width: 22px;
+            height: 22px;
+            margin-top: 5px;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
+        .term-text {
+            flex: 1;
+            min-height: 40px;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            resize: vertical;
+        }
+
+        .term-text:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+    </style>
+    <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
+    <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
+    <meta property="og:type" content="website" data-id="th-modified">
+    <script type="text/javascript" src="https://tiiny.host/ad-script.js"></script>
+    <script defer="" data-domain="salmon-jackelyn-28.tiiny.site"
+        src="https://analytics.tiiny.site/js/plausible.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header-ui">
+            <h2 style="color: var(--main); letter-spacing: 2px;">ΠΡΟΣΦΟΡΑ</h2>
+        </div>
+
+        <div class="card">
+            <div class="header-ui">
+                <div class="logo-box" onclick="document.getElementById('logoInput').click()">
+                    <img id="logoPreview" src="https://via.placeholder.com/120x60?text=LOGO" alt="Logo Preview"
+                        style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                    <span style="font-size: 10px; color: #64748b; margin-top: 5px; display: block;">ΚΛΙΚ ΓΙΑ ΑΛΛΑΓΗ
+                        ΛΟΓΟΤΥΠΟΥ</span>
+                </div>
+                <input type="file" id="logoInput" style="display: none;" accept="image/*"
+                    onchange="handleLogoUpload(event)">
+            </div>
+            <label>Τίτλος Έργου / Προσφοράς</label>
+            <input type="text" id="offerTitle" placeholder="π.χ. ΑΝΑΠΛΑΣΗ ΑΘΛΗΤΙΚΟΥ ΚΕΝΤΡΟΥ">
+            <label>Στοιχεία Πελάτη</label>
+            <input type="text" id="clientName" placeholder="π.χ. ΔΗΜΟΣ ΠΑΤΡΕΩΝ - ΤΕΧΝΙΚΗ ΥΠΗΡΕΣΙΑ">
+            <label>Ημερομηνία Προσφοράς</label>
+            <input type="date" id="offerDate">
+        </div>
+
+        <div id="items-container"></div>
+        <button class="btn-add" onclick="addLine()">+ ΠΡΟΣΘΗΚΗ ΝΕΑΣ ΕΝΟΤΗΤΑΣ</button>
+
+        <div class="card" style="margin-top: 20px;">
+            <h3 style="color: var(--main); margin-top: 0; font-size: 14px; text-transform: uppercase;">Γενικοί Όροι
+                &amp; Παρατηρήσεις</h3>
+            <div id="terms-container"></div>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <div>
+            <label style="margin:0">ΣΥΝΟΛΟ ΚΑΘΑΡΗΣ ΑΞΙΑΣ</label>
+            <div class="total-amount"><span id="uiTotal">0.00</span>€</div>
+        </div>
+        <button class="btn-pdf" onclick="generatePDF()">ΕΚΔΟΣΗ ΦΑΚΕΛΟΥ ΠΡΟΣΦΟΡΑΣ</button>
+    </div>
+
+    <script>
+        let logoBase64 = "";
+        let logoBottomLeftBase64 = "";
+
+        // Initialize logo preview with current logoBase64
+        document.addEventListener('DOMContentLoaded', () => {
+            const preview = document.getElementById('logoPreview');
+            if (logoBase64 && logoBase64 !== '') {
+                preview.src = logoBase64;
+            }
+        });
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const base64String = e.target.result;
+                    logoBase64 = base64String;
+                    document.getElementById('logoPreview').src = base64String;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Logo update UI removed as requested. Base64 is hardcoded above.
+
+        function addLine(text = '') {
+            const id = Date.now() + Math.floor(Math.random() * 1000);
+            const container = document.getElementById('items-container');
+            const div = document.createElement('div');
+            div.className = 'card line-item';
+            div.id = `line-${id}`;
+            div.innerHTML = `
+            <span class="remove-btn" onclick="removeLine(${id})">ΔΙΑΓΡΑΦΗ</span>
+            <label>ΑΝΑΛΥΤΙΚΗ ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
+            <textarea id="desc-${id}" oninput="updateTotal()" rows="4" style="line-height:1.5">${text}</textarea>
+            <div style="display:flex; gap:15px; margin-top:10px;">
+                <div style="flex:1"><label>ΠΟΣΟΤΗΤΑ</label><input type="number" id="qty-${id}" value="1" oninput="updateTotal()"></div>
+                <div style="flex:1"><label>ΤΙΜΗ ΜΟΝΑΔΟΣ (€)</label><input type="number" id="price-${id}" value="0" oninput="updateTotal()"></div>
+            </div>
+        `;
+            container.appendChild(div);
+            updateTotal();
+        }
+
+        function removeLine(id) { document.getElementById(`line-${id}`).remove(); updateTotal(); }
+
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('[id^="desc-"]').forEach(el => {
+                const id = el.id.split('-')[1];
+                total += (parseFloat(document.getElementById(`qty-${id}`).value) || 0) * (parseFloat(document.getElementById(`price-${id}`).value) || 0);
+            });
+            document.getElementById('uiTotal').innerText = total.toLocaleString('el-GR', { minimumFractionDigits: 2 });
+        }
+
+        function generatePDF() {
+            const title = document.getElementById('offerTitle').value.toUpperCase() || "ΠΡΟΣΦΟΡΑ ΕΡΓΩΝ";
+            const client = document.getElementById('clientName').value.toUpperCase() || "---";
+            const rawDate = document.getElementById('offerDate').value;
+            const offerDate = rawDate ? new Date(rawDate).toLocaleDateString('el-GR') : new Date().toLocaleDateString('el-GR');
+
+            // Robust image helper
+            const getLogo = (b64, width, align = 'center', margin = [0, 0, 0, 0]) => {
+                // Case-insensitive check for 'base64' (common issue)
+                if (b64 && b64.length > 500 && b64.toLowerCase().includes('base64,')) {
+                    return { image: b64, width: width, alignment: align, margin: margin };
+                }
+                return { text: '', margin: margin };
+            };
+
+            let tableRows = [
+                [
+                    { text: 'ΠΕΡΙΓΡΑΦΗ ΤΕΧΝΙΚΩΝ ΕΡΓΑΣΙΩΝ', style: 'tableHeader' },
+                    { text: 'ΠΟΣ.', style: 'tableHeader' },
+                    { text: 'ΤΙΜΗ ΜΟΝ.', style: 'tableHeader' },
+                    { text: 'ΣΥΝΟΛΟ', style: 'tableHeader' }
+                ]
+            ];
+
+            let grandTotal = 0;
+            document.querySelectorAll('[id^="desc-"]').forEach((el, index) => {
+                const id = el.id.split('-')[1];
+                const q = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
+                const p = parseFloat(document.getElementById(`price-${id}`).value) || 0;
+                const sub = q * p;
+                grandTotal += sub;
+
+                tableRows.push([
+                    { text: el.value, margin: [0, 8, 0, 8], fontSize: 10, lineHeight: 1.4, verticalAlign: 'middle', alignment: 'left' },
+                    { text: q.toString(), alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
+                    { text: p.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
+                    { text: sub.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', bold: true, color: '#1e293b', margin: [0, 8, 0, 8], verticalAlign: 'middle' }
+                ]);
+            });
+
+            // Dynamic Terms Collection
+            let selectedTerms = [];
+            document.querySelectorAll('.term-row').forEach(row => {
+                const cb = row.querySelector('.term-checkbox');
+                const txt = row.querySelector('.term-text').value;
+                if (cb.checked && txt.trim()) {
+                    selectedTerms.push({ text: txt.trim(), margin: [0, 5] });
+                }
+            });
+
+            const docDef = {
+                pageSize: 'A4',
+                pageMargins: [40, 50, 40, 50],
+                background: function (currentPage) {
+                    if (currentPage > 1) {
+                        return { canvas: [{ type: 'rect', x: 0, y: 0, w: 10, h: 842, color: '#1e293b' }] };
+                    }
+                },
+                content: [
+                    // --- PAGE 1: LUXURY COVER ---
+                    getLogo(logoBase64, 150, 'center', [0, 120, 0, 30]),
+                    { canvas: [{ type: 'line', x1: 100, y1: 0, x2: 415, y2: 0, lineWidth: 1, lineColor: '#f97316' }], margin: [0, 0, 0, 40] },
+                    { text: 'ΤΕΧΝΙΚΗ & ΟΙΚΟΝΟΜΙΚΗ', fontSize: 14, alignment: 'center', color: '#64748b', characterSpacing: 5 },
+                    { text: title, fontSize: 38, bold: true, alignment: 'center', margin: [0, 10, 0, 10], color: '#1e293b' },
+                    { text: 'ΠΡΟΣΦΟΡΑ ΕΡΓΑΣΙΩΝ', fontSize: 14, alignment: 'center', color: '#64748b', characterSpacing: 5, margin: [0, 0, 0, 40] },
+                    {
+                        table: {
+                            widths: ['*'],
+                            body: [[{
+                                text: 'ΠΡΟΣ: ' + client,
+                                alignment: 'center',
+                                fontSize: 16,
+                                bold: true,
+                                color: '#1e293b',
+                                fillColor: '#f8fafc',
+                                padding: [15, 15],
+                                border: [false, false, false, false]
+                            }]]
+                        },
+                        margin: [40, 0, 40, 0]
+                    },
+                    { text: 'ΗΜΕΡΟΜΗΝΙΑ: ' + offerDate, fontSize: 10, alignment: 'center', color: '#94a3b8', margin: [0, 100, 0, 0] },
+
+                    // --- PAGE 2: MAIN TABLE ---
+                    { text: '', pageBreak: 'before' },
+                    {
+                        columns: [
+                            {
+                                stack: [getLogo(logoBase64, 60, 'left')]
+                            },
+                            {
+                                stack: [
+                                    { text: 'DP CONSTRUCTION', bold: true, color: '#1e293b', fontSize: 16 },
+                                    { text: 'ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ ΕΤΑΙΡΕΙΑ', fontSize: 9, color: '#f97316', bold: true },
+                                    { text: 'ΠΕΡΙΑΝΔΡΟΥ 20 • ΒΡΑΧΑΤΙ • ΑΦΜ: 802849066', fontSize: 8, color: '#64748b', margin: [0, 5, 0, 0] },
+                                    { text: 'Email: psychosdimitrios@gmail.com • Τηλ: 6975554238', fontSize: 8, color: '#64748b' }
+                                ], alignment: 'right'
+                            }
+                        ], margin: [0, 0, 0, 40]
+                    },
+                    { text: 'ΑΝΑΛΥΤΙΚΟΣ ΠΙΝΑΚΑΣ ΕΡΓΑΣΙΩΝ', fontSize: 14, bold: true, color: '#1e293b', margin: [0, 0, 0, 20] },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', 40, 80, 90],
+                            body: tableRows
+                        },
+                        layout: {
+                            hLineWidth: (i, node) => (i === 0 || i === node.table.body.length) ? 0 : 0.5,
+                            vLineWidth: () => 0,
+                            hLineColor: (i, node) => '#cbd5e1',
+                            paddingTop: (i) => (i === 0) ? 14 : 10,
+                            paddingBottom: (i) => (i === 0) ? 14 : 10,
+                            fillColor: (rowIndex) => (rowIndex === 0) ? '#1e293b' : (rowIndex % 2 === 0 ? '#f8fafc' : null)
+                        }
+                    },
+                    {
+                        margin: [0, 20, 0, 0],
+                        columns: [
+                            { text: '' },
+                            {
+                                stack: [
+                                    { text: 'ΣΥΝΟΛΙΚΟ ΚΟΣΤΟΣ ΕΠΕΝΔΥΣΗΣ (ΠΡΟ ΦΠΑ 24%)', fontSize: 9, color: '#64748b', bold: true, margin: [0, 0, 0, 5] },
+                                    { text: grandTotal.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', fontSize: 24, bold: true, color: '#f97316' }
+                                ], alignment: 'right'
+                            }
+                        ]
+                    },
+
+                    // --- PAGE 3: TERMS & BANK ---
+                    { text: '', pageBreak: 'before' },
+                    { text: 'ΓΕΝΙΚΟΙ ΟΡΟΙ & ΠΡΟΫΠΟΘΕΣΕΙΣ', fontSize: 14, bold: true, color: '#1e293b', margin: [0, 0, 0, 20] },
+                    {
+                        ul: selectedTerms.length > 0 ? selectedTerms : [{ text: '---', margin: [0, 5] }],
+                        color: '#334155', fontSize: 11, lineHeight: 1.5
+                    },
+                    {
+                        margin: [0, 50, 0, 0],
+                        stack: [
+                            { text: 'ΣΤΟΙΧΕΙΑ ΤΡΑΠΕΖΙΚΟΥ ΛΟΓΑΡΙΑΣΜΟΥ (ΠΕΙΡΑΙΩΣ)', bold: true, color: '#f97316', fontSize: 10, margin: [0, 0, 0, 10] },
+                            { text: 'IBAN: GR92 0171 3350 0063 3516 9473 041', fontSize: 18, bold: true, color: '#1e293b', characterSpacing: 1 },
+                            { text: 'ΔΙΚΑΙΟΥΧΟΣ: ΨΥΧΟΣ ΔΗΜΗΤΡΙΟΣ', fontSize: 12, color: '#1e293b', bold: true, margin: [0, 5, 0, 0] }
+                        ]
+                    },
+                    {
+                        margin: [0, 50, 0, 0],
+                        columns: [
+                            {
+                                stack: [getLogo(logoBottomLeftBase64, 100, 'left')]
+                            },
+                            {
+                                stack: [
+                                    { text: 'Με εκτίμηση,\n\n', alignment: 'right', bold: true, fontSize: 12, color: '#1e293b' },
+                                    { text: '__________________________\nDP CONSTRUCTION', alignment: 'right', bold: true, fontSize: 12, color: '#1e293b' }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                styles: {
+                    tableHeader: { bold: true, fontSize: 11, color: 'white', fillColor: '#1e293b', margin: [0, 5, 0, 5], alignment: 'center' }
+                }
+            };
+
+            try {
+                pdfMake.createPdf(docDef).download("ΠΡΟΣΦΟΡΑ_" + title + ".pdf");
+            } catch (e) {
+                console.error("PDF generation failed:", e);
+                alert("Υπήρξε σφάλμα στην παραγωγή του PDF. Θα γίνει προσπάθεια λήψης χωρίς εικόνες.");
+                try {
+                    const fallback = JSON.parse(JSON.stringify(docDef));
+                    const stripImages = (obj) => {
+                        for (let k in obj) {
+                            if (k === 'image') delete obj[k];
+                            else if (typeof obj[k] === 'object' && obj[k] !== null) stripImages(obj[k]);
+                        }
+                    };
+                    stripImages(fallback);
+                    pdfMake.createPdf(fallback).download("ΠΡΟΣΦΟΡΑ_" + title + " (NO_IMAGES).pdf");
+                } catch (fallbackError) {
+                    alert("Κρίσιμο σφάλμα: Δεν είναι δυνατή η παραγωγή του PDF.");
+                }
+            }
+        }
+
+        function addTerm(text = "", isChecked = true) {
+            const container = document.getElementById('terms-container');
+            const row = document.createElement('div');
+            row.className = 'term-row';
+            row.innerHTML = `
+            <input type="checkbox" class="term-checkbox" ${isChecked ? 'checked' : ''}>
+            <textarea class="term-text" rows="2">${text}</textarea>
+        `;
+            container.appendChild(row);
+        }
+
+        window.onload = function () {
+
+            const defaults = [
+                "Σετ γηπέδου PADEL αποτελούμενο από μεταλλικά πλαίσια διατομής RHS 100X50X2 ,RHS 40X40X2 γαλβανιζέ. Η κατασκευή θα είναι βαμμένη με ηλεκτροστατική βαφή σε RAL της επιλογής σας .Χρήση 4 μεταλλικών στηλών 6m ,διατομής RHS 100X50X2 .Περιλαμβάνει 8 προβολείς των 200 watt και τάπητα PRO PADEL TURF",
+                "Αναλώσιμα για την τοποθέτηση του τάπητα (κόλλα , ταινίες, χαλαζιακή άμμος)",
+                "Τοποθέτηση αθλητικού τάπητα",
+                "Τοποθέτηση μεταλλικής κατασκευής , υαλοπινάκων και φωτιστικών σωμάτων"
+            ];
+            defaults.forEach(text => addLine(text));
+
+            const defaultTerms = [
+                "Η επιλογή χρώματος των μεταλλικών κατασκευών είναι δωρεάν σε οποιαδήποτε απόχρωση επιθυμείτε.",
+                "Στις αναγραφόμενες τιμές δεν συμπεριλαμβάνεται ο νόμιμος Φ.Π.Α. 24%.",
+                "Η παρούσα προσφορά δεν καλύπτει τα έξοδα μεταφοράς των υλικών, καθώς και τα έξοδα διαμονής και διατροφής του συνεργείου.",
+                "Κατά τη διάρκεια των εργασιών πρέπει στον χώρο να υπάρχει ανυψωτικό μηχάνημα (κλαρκ ή γερανός) για τη φόρτωση, εκφόρτωση και τοποθέτηση των υλικών. Η χρήση ανυψωτικών μηχανημάτων δεν περιλαμβάνεται στην παρούσα προσφορά.",
+                "Τρόπος πληρωμής: 50% προκαταβολή με την ανάθεση του έργου, 30% με τη φόρτωση των υλικών και 20% εξόφληση με την περαίωση των εργασιών.",
+                "Ο συνθετικός τάπητας συνοδεύεται από πιστοποιητικό καταλληλότητας ΕΝ-71-3 για πολυκυκλικούς υδρογονάνθρακες."
+            ];
+            defaultTerms.forEach(text => addTerm(text));
+
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('offerDate').value = today;
+        };
+    </script>
+</body>
+
+</html>
