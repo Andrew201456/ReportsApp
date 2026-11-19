@@ -3,665 +3,805 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#17243a">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>DP Construction | Προσφορές</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <title>DP Construction | Luxury Edition</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-
     <style>
         :root {
-            --main: #17243a;
-            --main-2: #243752;
-            --accent: #d49a45;
-            --accent-soft: #fbf4e9;
-            --ink: #182235;
-            --muted: #718096;
-            --line: #e6eaf0;
-            --surface: #ffffff;
-            --canvas: #f3f5f8;
-            --danger: #c24141;
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --main: #0f172a;
+            --main-soft: #1e293b;
+            --accent: #f97316;
+            --accent-hover: #ea580c;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #16a34a;
         }
 
-        * { box-sizing: border-box; }
-        html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
             margin: 0;
-            padding: 18px 14px calc(150px + var(--safe-bottom));
-            background:
-                radial-gradient(ellipse at top left, rgba(212,154,69,.10), transparent 38%),
-                var(--canvas);
-            color: var(--ink);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            padding: 0;
+            padding-bottom: calc(115px + env(safe-area-inset-bottom));
             -webkit-font-smoothing: antialiased;
         }
 
-        .container { width: 100%; max-width: 720px; margin: 0 auto; }
-        .header-ui { text-align: center; margin-bottom: 18px; }
-        .header-ui h2 {
-            margin: 6px 0 4px;
-            color: var(--main);
-            font-size: 25px;
-            line-height: 1.15;
-            font-weight: 850;
-            letter-spacing: 3px;
-        }
-        .header-ui h2::after {
-            content: "";
-            display: block;
-            width: 42px;
-            height: 3px;
-            margin: 13px auto 0;
-            border-radius: 9px;
-            background: var(--accent);
+        /* Top App Bar (iOS Style) */
+        .app-header {
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: white;
+            padding: calc(14px + env(safe-area-inset-top)) 20px 14px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .card {
-            background: var(--surface);
-            padding: 22px;
-            margin: 0 0 16px;
-            border: 1px solid rgba(226,232,240,.9);
-            border-radius: 22px;
-            box-shadow: 0 8px 28px rgba(23,36,58,.055);
-        }
-        .card h3 {
-            color: var(--main) !important;
-            font-size: 15px !important;
-            letter-spacing: .35px;
-            line-height: 1.4;
-        }
-
-        .logo-box {
-            min-height: 132px;
+        .app-header-title {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+        }
+
+        .app-header-title span.brand {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .app-header-title h1 {
+            margin: 2px 0 0;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+            margin-bottom: 16px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .section-header {
+            display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 18px;
-            border: 1.5px dashed #d6dce5;
-            border-radius: 18px;
-            background: linear-gradient(145deg, #fbfcfe, #f5f7fa);
+            justify-content: space-between;
+            margin: 24px 4px 12px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Logo Upload Area */
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 16px;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            transition: border-color .2s, background .2s;
+            transition: all 0.2s ease;
+            margin-bottom: 18px;
         }
-        .logo-box:active { border-color: var(--accent); background: var(--accent-soft); }
-        .logo-box img {
-            display: block;
-            width: auto;
-            max-width: min(100%, 210px) !important;
-            max-height: 78px;
+
+        .logo-wrapper:active {
+            transform: scale(0.98);
+            background: #f1f5f9;
+        }
+
+        .logo-preview-box {
+            width: 68px;
+            height: 68px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            flex-shrink: 0;
+            padding: 4px;
+        }
+
+        .logo-preview-box img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            border-radius: 6px;
-            box-shadow: none !important;
         }
-        .logo-box span {
-            color: var(--muted) !important;
-            font-size: 11px !important;
-            font-weight: 750;
-            letter-spacing: .7px;
+
+        .logo-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .logo-info strong {
+            font-size: 14px;
+            color: var(--main);
+        }
+
+        .logo-info span {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        /* Form Elements (16px font prevents iOS Safari zoom) */
+        .field-group {
+            margin-bottom: 14px;
+        }
+
+        .field-group:last-child {
+            margin-bottom: 0;
         }
 
         label {
             display: block;
-            margin: 19px 0 8px;
-            color: #536176;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1.05px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
             text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.6px;
         }
-        input, textarea {
-            display: block;
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea {
             width: 100%;
-            min-width: 0;
-            padding: 15px 14px;
-            border: 1.5px solid var(--line);
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
             border-radius: 13px;
-            background: #fbfcfe;
-            color: var(--ink);
-            font: inherit;
             font-size: 16px;
-            line-height: 1.4;
-            outline: none;
-            box-shadow: none;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: #f8fafc;
+            transition: all 0.2s ease;
             appearance: none;
             -webkit-appearance: none;
-            transition: border-color .18s, box-shadow .18s, background .18s;
         }
-        input:focus, textarea:focus {
-            border-color: var(--accent);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(212,154,69,.13);
-        }
-        input::placeholder, textarea::placeholder { color: #a2acba; }
-        input[type="date"] { min-height: 51px; }
-        input[type="number"] { font-variant-numeric: tabular-nums; }
-        textarea { resize: vertical; min-height: 105px; }
-        input[type="file"] { display: none; }
 
+        input:focus,
+        textarea:focus {
+            background: #ffffff;
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+        }
+
+        textarea {
+            line-height: 1.45;
+            resize: vertical;
+        }
+
+        /* Line Item Card */
         .line-item {
             position: relative;
-            padding: 20px;
-            border-left: 4px solid var(--accent);
-            animation: slideIn .25s ease-out;
+            padding: 18px;
+            border-left: 5px solid var(--main);
+            animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .line-item label:first-of-type { padding-right: 76px; margin-top: 3px; }
-        .line-item textarea { min-height: 116px; line-height: 1.55 !important; }
-        .line-item > div[style*="display:flex"] {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px !important;
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .line-item > div[style*="display:flex"] > div { min-width: 0; }
-        .line-item > div[style*="display:flex"] label { margin-top: 14px; }
+
+        .item-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-badge {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--main);
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-subtotal {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
         .remove-btn {
-            position: absolute;
-            top: 17px;
-            right: 17px;
-            display: inline-flex;
+            background: #fef2f2;
+            color: var(--danger);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 34px;
-            padding: 7px 11px;
-            border: 1px solid #f2dada;
-            border-radius: 10px;
-            background: #fff8f8;
-            color: var(--danger);
-            font-size: 10px;
-            font-weight: 850;
-            letter-spacing: .4px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            transition: transform 0.15s;
         }
 
-        button {
-            min-height: 52px;
-            font: inherit;
-            -webkit-appearance: none;
-            appearance: none;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+        .remove-btn:active {
+            transform: scale(0.9);
+            background: #fee2e2;
         }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        /* Buttons */
         .btn-add {
             width: 100%;
-            padding: 16px 18px;
-            border: 1px solid #2d405d;
-            border-radius: 15px;
             background: var(--main);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 850;
-            letter-spacing: .5px;
-            box-shadow: 0 7px 18px rgba(23,36,58,.15);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+            transition: transform 0.15s, background 0.2s;
         }
-        .btn-add:active, .btn-pdf:active { transform: scale(.985); }
 
+        .btn-add:active {
+            transform: scale(0.98);
+            background: var(--main-soft);
+        }
+
+        /* Terms Section */
         .term-row {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin: 0 0 10px;
+            gap: 10px;
             padding: 12px;
-            border: 1px solid #edf0f4;
+            background: #f8fafc;
             border-radius: 14px;
-            background: #fbfcfe;
-        }
-        .term-checkbox {
-            flex: 0 0 22px;
-            width: 22px;
-            height: 22px;
-            margin: 3px 0 0;
-            padding: 0;
-            border-radius: 6px;
-            accent-color: var(--accent);
-        }
-        .term-text {
-            flex: 1;
-            min-height: 72px;
-            padding: 10px 11px;
-            border-radius: 10px;
-            background: #fff;
-            font-size: 14px;
-            line-height: 1.5;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
         }
 
-        .footer-nav {
-            position: fixed;
-            z-index: 1000;
-            right: 0;
-            bottom: 0;
-            left: 0;
+        .term-checkbox {
+            width: 22px;
+            height: 22px;
+            margin-top: 8px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .term-text {
+            flex: 1;
+            padding: 10px 12px;
+            font-size: 15px;
+            background: #ffffff;
+            border-radius: 10px;
+        }
+
+        .term-delete {
+            background: #fff;
+            border: 1px solid #fee2e2;
+            color: var(--danger);
+            width: 32px;
+            height: 32px;
+            margin-top: 4px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 13px max(18px, calc((100vw - 720px) / 2)) calc(13px + var(--safe-bottom));
-            border-top: 1px solid rgba(226,232,240,.9);
-            background: rgba(255,255,255,.94);
-            -webkit-backdrop-filter: saturate(180%) blur(18px);
-            backdrop-filter: saturate(180%) blur(18px);
-            box-shadow: 0 -8px 28px rgba(23,36,58,.07);
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
         }
-        .footer-nav > div { min-width: 0; }
-        .footer-nav label {
-            margin: 0 0 4px;
-            color: var(--muted);
-            font-size: 9px;
-            letter-spacing: .7px;
-            white-space: nowrap;
-        }
-        .total-amount {
+
+        .term-add {
+            width: 100%;
+            margin-top: 6px;
+            padding: 14px;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 13px;
+            background: #f8fafc;
             color: var(--main);
-            font-size: clamp(20px, 5vw, 27px);
-            font-weight: 900;
-            line-height: 1.1;
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-        }
-        .btn-pdf {
-            flex: 0 0 auto;
-            max-width: 58%;
-            padding: 13px 17px;
-            border: 0;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #1b8b5a, #137447);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 850;
-            line-height: 1.25;
-            box-shadow: 0 6px 16px rgba(19,116,71,.22);
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        @media (min-width: 700px) {
-            body { padding-top: 30px; }
-            .card { padding: 26px; }
-            .footer-nav { padding-left: max(28px, calc((100vw - 720px) / 2)); padding-right: max(28px, calc((100vw - 720px) / 2)); }
-            .btn-pdf { max-width: none; padding: 15px 25px; font-size: 13px; }
+        .term-add:active {
+            background: #e2e8f0;
         }
-        @media (max-width: 420px) {
-            body { padding: 12px 10px calc(145px + var(--safe-bottom)); }
-            .header-ui h2 { font-size: 23px; }
-            .card { padding: 17px; border-radius: 19px; }
-            .line-item { padding: 16px; }
-            .line-item > div[style*="display:flex"] { gap: 9px !important; }
-            .footer-nav { gap: 10px; padding-right: 12px; padding-left: 12px; }
-            .footer-nav label { font-size: 8px; }
-            .total-amount { font-size: 21px; }
-            .btn-pdf { max-width: 55%; min-height: 50px; padding: 10px 11px; font-size: 10px; }
+
+        /* Fixed Bottom Navigation (iPhone Optimized) */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 -6px 24px rgba(15, 23, 42, 0.06);
+            z-index: 1000;
         }
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+
+        .footer-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .total-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .total-amount {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--main);
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(22, 163, 74, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            transition: transform 0.15s;
+        }
+
+        .btn-pdf:active {
+            transform: scale(0.96);
+        }
+
+        @media (max-width: 380px) {
+            .total-amount {
+                font-size: 20px;
+            }
+            .btn-pdf {
+                padding: 13px 14px;
+                font-size: 13px;
+            }
         }
     </style>
-
-    <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
-    <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
-    <meta property="og:type" content="website" data-id="th-modified">
-    <script type="text/javascript" src="https://tiiny.host/ad-script.js"></script>
-    <script defer="" data-domain="salmon-jackelyn-28.tiiny.site"
-        src="https://analytics.tiiny.site/js/plausible.js"></script>
 </head>
 
 <body>
 
+    <header class="app-header">
+        <div class="app-header-title">
+            <span class="brand">DP Construction</span>
+            <h1>Έκδοση Προσφοράς</h1>
+        </div>
+        <div class="header-badge">PDF Builder</div>
+    </header>
+
     <div class="container">
-        <div class="header-ui">
-            <h2 style="color: var(--main); letter-spacing: 2px;">ΠΡΟΣΦΟΡΑ</h2>
+        <!-- Γενικά Στοιχεία -->
+        <div class="card">
+            <div class="logo-wrapper" onclick="document.getElementById('logoInput').click()">
+                <div class="logo-preview-box">
+                    <img id="logoPreview" src="" alt="Logo Preview">
+                </div>
+                <div class="logo-info">
+                    <strong>Εταιρικό Λογότυπο</strong>
+                    <span>Το λογότυπο έχει φορτωθεί αυτόματα. Πατήστε εδώ αν θέλετε να το αντικαταστήσετε.</span>
+                </div>
+            </div>
+            <input type="file" id="logoInput" style="display: none;" accept="image/*" onchange="handleLogoUpload(event)">
+
+            <div class="field-group">
+                <label for="offerTitle">Τίτλος Έργου / Προσφοράς</label>
+                <input type="text" id="offerTitle" placeholder="π.χ. ΑΝΑΠΛΑΣΗ ΑΘΛΗΤΙΚΟΥ ΚΕΝΤΡΟΥ">
+            </div>
+
+            <div class="field-group">
+                <label for="clientName">Στοιχεία Πελάτη</label>
+                <input type="text" id="clientName" placeholder="π.χ. ΔΗΜΟΣ ΠΑΤΡΕΩΝ - ΤΕΧΝΙΚΗ ΥΠΗΡΕΣΙΑ">
+            </div>
+
+            <div class="field-group">
+                <label for="offerDate">Ημερομηνία Προσφοράς</label>
+                <input type="date" id="offerDate">
+            </div>
         </div>
 
-        <div class="card">
-            <div class="header-ui">
-                <div class="logo-box" onclick="document.getElementById('logoInput').click()">
-                    <img id="logoPreview" src="https://via.placeholder.com/120x60?text=LOGO" alt="Logo Preview"
-                        style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-                    <span style="font-size: 10px; color: #64748b; margin-top: 5px; display: block;">ΚΛΙΚ ΓΙΑ ΑΛΛΑΓΗ
-                        ΛΟΓΟΤΥΠΟΥ</span>
-                </div>
-                <input type="file" id="logoInput" style="display: none;" accept="image/*"
-                    onchange="handleLogoUpload(event)">
-            </div>
-            <label>Τίτλος Έργου / Προσφοράς</label>
-            <input type="text" id="offerTitle" placeholder="π.χ. ΑΝΑΠΛΑΣΗ ΑΘΛΗΤΙΚΟΥ ΚΕΝΤΡΟΥ">
-            <label>Στοιχεία Πελάτη</label>
-            <input type="text" id="clientName" placeholder="π.χ. ΔΗΜΟΣ ΠΑΤΡΕΩΝ - ΤΕΧΝΙΚΗ ΥΠΗΡΕΣΙΑ">
-            <label>Ημερομηνία Προσφοράς</label>
-            <input type="date" id="offerDate">
+        <!-- Ενότητες Εργασιών -->
+        <div class="section-header">
+            <h2 class="section-title">Αναλυτικές Εργασίες</h2>
+            <span id="itemsCount" style="font-size: 12px; font-weight: 700; color: var(--accent);">0 ενότητες</span>
         </div>
 
         <div id="items-container"></div>
-        <button class="btn-add" onclick="addLine()">+ ΠΡΟΣΘΗΚΗ ΝΕΑΣ ΕΝΟΤΗΤΑΣ</button>
 
-        <div class="card" style="margin-top: 20px;">
-            <h3 style="color: var(--main); margin-top: 0; font-size: 14px; text-transform: uppercase;">Γενικοί Όροι
-                &amp; Παρατηρήσεις</h3>
+        <button type="button" class="btn-add" onclick="addLine()">
+            <span style="font-size: 20px; line-height: 1;">+</span> ΠΡΟΣΘΗΚΗ ΝΕΑΣ ΕΝΟΤΗΤΑΣ
+        </button>
+
+        <!-- Γενικοί Όροι -->
+        <div class="section-header">
+            <h2 class="section-title">Γενικοί Όροι &amp; Παρατηρήσεις</h2>
+        </div>
+
+        <div class="card">
             <div id="terms-container"></div>
+            <button type="button" class="term-add" onclick="addTerm()">+ ΠΡΟΣΘΗΚΗ ΝΕΟΥ ΟΡΟΥ</button>
         </div>
     </div>
 
+    <!-- Sticky Bottom Action Bar -->
     <div class="footer-nav">
-        <div>
-            <label style="margin:0">ΣΥΝΟΛΟ ΚΑΘΑΡΗΣ ΑΞΙΑΣ</label>
-            <div class="total-amount"><span id="uiTotal">0.00</span>€</div>
+        <div class="footer-inner">
+            <div class="total-box">
+                <span class="total-label">ΚΑΘΑΡΗ ΑΞΙΑ (ΠΡΟ ΦΠΑ)</span>
+                <div class="total-amount"><span id="uiTotal">0,00</span>€</div>
+            </div>
+            <button type="button" class="btn-pdf" onclick="generatePDF()">
+                <span>ΕΚΔΟΣΗ PDF</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </button>
         </div>
-        <button class="btn-pdf" onclick="generatePDF()">ΕΚΔΟΣΗ ΦΑΚΕΛΟΥ ΠΡΟΣΦΟΡΑΣ</button>
     </div>
 
     <script>
-        // Το λογότυπο αποθηκεύεται τοπικά στον browser μετά την πρώτη μεταφόρτωση.
-        let logoBase64 = '';
-        let logoBottomLeftBase64 = '';
+        // Ελαφρύ Base64 του νέου, καθαρού λογοτύπου
+        let logoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAHgAoABAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyA="; // Το base64 της image_1.png
 
-        function loadSavedLogo() {
-            try {
-                logoBase64 = localStorage.getItem('dpConstructionLogo') || '';
-                logoBottomLeftBase64 = logoBase64;
-                if (logoBase64) {
-                    document.getElementById('logoPreview').src = logoBase64;
-                }
-            } catch (error) {
-                console.warn('Δεν ήταν δυνατή η ανάκτηση του αποθηκευμένου logo:', error);
-            }
+        window.onload = function() {
+            // Ορισμός σημερινής ημερομηνίας
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('offerDate').value = today;
+            
+            // Φόρτωση λογοτύπου
+            document.getElementById('logoPreview').src = logoBase64;
+
+            // Αρχικές τιμές
+            addLine();
+            addTerm("Η προσφορά ισχύει για 30 ημέρες από την ημερομηνία έκδοσης.");
+            addTerm("Στις τιμές δεν συμπεριλαμβάνεται ο Φ.Π.Α.");
         }
 
         function handleLogoUpload(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                alert('Παρακαλώ επίλεξε ένα αρχείο εικόνας.');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const base64String = e.target.result;
-                logoBase64 = base64String;
-                logoBottomLeftBase64 = base64String;
-                document.getElementById('logoPreview').src = base64String;
-
-                try {
-                    localStorage.setItem('dpConstructionLogo', base64String);
-                } catch (error) {
-                    alert('Το logo φορτώθηκε, αλλά δεν ήταν δυνατή η μόνιμη αποθήκευσή του στον browser. Δοκίμασε μικρότερη εικόνα.');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoBase64 = e.target.result;
+                    document.getElementById('logoPreview').src = logoBase64;
                 }
-            };
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            }
         }
 
-        function addLine(text = '') {
-            const id = Date.now() + Math.floor(Math.random() * 1000);
+        let lineCounter = 0;
+        function addLine() {
+            lineCounter++;
             const container = document.getElementById('items-container');
-            const div = document.createElement('div');
-            div.className = 'card line-item';
-            div.id = `line-${id}`;
-            div.innerHTML = `
-            <span class="remove-btn" onclick="removeLine(${id})">ΔΙΑΓΡΑΦΗ</span>
-            <label>ΑΝΑΛΥΤΙΚΗ ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
-            <textarea id="desc-${id}" oninput="updateTotal()" rows="4" style="line-height:1.5">${text}</textarea>
-            <div style="display:flex; gap:15px; margin-top:10px;">
-                <div style="flex:1"><label>ΠΟΣΟΤΗΤΑ</label><input type="number" id="qty-${id}" value="1" oninput="updateTotal()"></div>
-                <div style="flex:1"><label>ΤΙΜΗ ΜΟΝΑΔΟΣ (€)</label><input type="number" id="price-${id}" value="0" oninput="updateTotal()"></div>
-            </div>
-        `;
-            container.appendChild(div);
-            updateTotal();
+            const item = document.createElement('div');
+            item.className = 'card line-item';
+            item.id = `item-${lineCounter}`;
+            item.innerHTML = `
+                <div class="item-top-bar">
+                    <span class="item-badge">Εργασία #${lineCounter}</span>
+                    <div class="item-actions">
+                        <span class="item-subtotal" id="subtotal-${lineCounter}">0,00 €</span>
+                        <button type="button" class="remove-btn" onclick="removeLine(${lineCounter})">✕</button>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>Περιγραφή Εργασίας</label>
+                    <textarea id="desc-${lineCounter}" rows="2" placeholder="π.χ. Χωματουργικές εργασίες και εκσκαφές..."></textarea>
+                </div>
+                <div class="number-grid">
+                    <div class="field-group">
+                        <label>Ποσότητα</label>
+                        <input type="number" id="qty-${lineCounter}" value="1" min="0" step="any" oninput="calculateTotals()">
+                    </div>
+                    <div class="field-group">
+                        <label>Τιμή Μονάδος (€)</label>
+                        <input type="number" id="price-${lineCounter}" value="0" min="0" step="any" oninput="calculateTotals()">
+                    </div>
+                </div>
+            `;
+            container.appendChild(item);
+            calculateTotals();
         }
 
-        function removeLine(id) { document.getElementById(`line-${id}`).remove(); updateTotal(); }
+        function removeLine(id) {
+            const el = document.getElementById(`item-${id}`);
+            if (el) {
+                el.remove();
+                calculateTotals();
+            }
+        }
 
-        function updateTotal() {
+        let termCounter = 0;
+        function addTerm(text = "") {
+            termCounter++;
+            const container = document.getElementById('terms-container');
+            const row = document.createElement('div');
+            row.className = 'term-row';
+            row.id = `term-${termCounter}`;
+            row.innerHTML = `
+                <input type="checkbox" class="term-checkbox" checked id="term-check-${termCounter}" onchange="calculateTotals()">
+                <textarea class="term-text" id="term-text-${termCounter}" rows="1" placeholder="Γράψτε έναν όρο...">${text}</textarea>
+                <button type="button" class="term-delete" onclick="removeTerm(${termCounter})">✕</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function removeTerm(id) {
+            const el = document.getElementById(`term-${id}`);
+            if (el) el.remove();
+        }
+
+        function calculateTotals() {
             let total = 0;
-            document.querySelectorAll('[id^="desc-"]').forEach(el => {
-                const id = el.id.split('-')[1];
-                total += (parseFloat(document.getElementById(`qty-${id}`).value) || 0) * (parseFloat(document.getElementById(`price-${id}`).value) || 0);
+            const itemCards = document.querySelectorAll('.line-item');
+            document.getElementById('itemsCount').innerText = `${itemCards.length} ενότητες`;
+
+            itemCards.forEach(card => {
+                const id = card.id.split('-')[1];
+                const qty = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
+                const price = parseFloat(document.getElementById(`price-${id}`).value) || 0;
+                const sub = qty * price;
+                total += sub;
+                document.getElementById(`subtotal-${id}`).innerText = sub.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
             });
-            document.getElementById('uiTotal').innerText = total.toLocaleString('el-GR', { minimumFractionDigits: 2 });
+
+            document.getElementById('uiTotal').innerText = total.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function generatePDF() {
-            const title = document.getElementById('offerTitle').value.toUpperCase() || "ΠΡΟΣΦΟΡΑ ΕΡΓΩΝ";
-            const client = document.getElementById('clientName').value.toUpperCase() || "---";
-            const rawDate = document.getElementById('offerDate').value;
-            const offerDate = rawDate ? new Date(rawDate).toLocaleDateString('el-GR') : new Date().toLocaleDateString('el-GR');
+            const title = document.getElementById('offerTitle').value || "ΠΡΟΣΦΟΡΑ ΕΡΓΑΣΙΩΝ";
+            const client = document.getElementById('clientName').value || "-";
+            const dateInput = document.getElementById('offerDate').value;
+            const dateStr = dateInput ? new Date(dateInput).toLocaleDateString('el-GR') : "-";
 
-            // Robust image helper
-            const getLogo = (b64, width, align = 'center', margin = [0, 0, 0, 0]) => {
-                // Case-insensitive check for 'base64' (common issue)
-                if (b64 && b64.length > 500 && b64.toLowerCase().includes('base64,')) {
-                    return { image: b64, width: width, alignment: align, margin: margin };
-                }
-                return { text: '', margin: margin };
-            };
-
-            let tableRows = [
+            const tableBody = [
                 [
-                    { text: 'ΠΕΡΙΓΡΑΦΗ ΤΕΧΝΙΚΩΝ ΕΡΓΑΣΙΩΝ', style: 'tableHeader' },
-                    { text: 'ΠΟΣ.', style: 'tableHeader' },
-                    { text: 'ΤΙΜΗ ΜΟΝ.', style: 'tableHeader' },
-                    { text: 'ΣΥΝΟΛΟ', style: 'tableHeader' }
+                    { text: 'Α/Α', style: 'tableHeader', alignment: 'center' },
+                    { text: 'ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΩΝ / ΥΛΙΚΩΝ', style: 'tableHeader' },
+                    { text: 'ΠΟΣΟΤΗΤΑ', style: 'tableHeader', alignment: 'center' },
+                    { text: 'ΤΙΜΗ ΜΟΝ.', style: 'tableHeader', alignment: 'right' },
+                    { text: 'ΣΥΝΟΛΟ', style: 'tableHeader', alignment: 'right' }
                 ]
             ];
 
-            let grandTotal = 0;
-            document.querySelectorAll('[id^="desc-"]').forEach((el, index) => {
-                const id = el.id.split('-')[1];
-                const q = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
-                const p = parseFloat(document.getElementById(`price-${id}`).value) || 0;
-                const sub = q * p;
-                grandTotal += sub;
+            let count = 0;
+            let total = 0;
+            document.querySelectorAll('.line-item').forEach(card => {
+                count++;
+                const id = card.id.split('-')[1];
+                const desc = document.getElementById(`desc-${id}`).value || "-";
+                const qty = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
+                const price = parseFloat(document.getElementById(`price-${id}`).value) || 0;
+                const sub = qty * price;
+                total += sub;
 
-                tableRows.push([
-                    { text: el.value, margin: [0, 8, 0, 8], fontSize: 10, lineHeight: 1.4, verticalAlign: 'middle', alignment: 'left' },
-                    { text: q.toString(), alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
-                    { text: p.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
-                    { text: sub.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', bold: true, color: '#1e293b', margin: [0, 8, 0, 8], verticalAlign: 'middle' }
+                tableBody.push([
+                    { text: count.toString(), alignment: 'center', margin: [0, 6, 0, 6] },
+                    { text: desc, margin: [0, 6, 0, 6] },
+                    { text: qty.toString(), alignment: 'center', margin: [0, 6, 0, 6] },
+                    { text: price.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'right', margin: [0, 6, 0, 6] },
+                    { text: sub.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'right', style: 'subtotal', margin: [0, 6, 0, 6] }
                 ]);
             });
 
-            // Dynamic Terms Collection
-            let selectedTerms = [];
+            const terms = [];
             document.querySelectorAll('.term-row').forEach(row => {
-                const cb = row.querySelector('.term-checkbox');
-                const txt = row.querySelector('.term-text').value;
-                if (cb.checked && txt.trim()) {
-                    selectedTerms.push({ text: txt.trim(), margin: [0, 5] });
+                const id = row.id.split('-')[1];
+                const checked = document.getElementById(`term-check-${id}`).checked;
+                const text = document.getElementById(`term-text-${id}`).value;
+                if (checked && text.trim() !== "") {
+                    terms.push({ text: `•  ${text}`, margin: [0, 2, 0, 2], fontSize: 9.5 });
                 }
             });
 
-            const docDef = {
-                pageSize: 'A4',
-                pageMargins: [40, 50, 40, 50],
-                background: function (currentPage) {
-                    if (currentPage > 1) {
-                        return { canvas: [{ type: 'rect', x: 0, y: 0, w: 10, h: 842, color: '#1e293b' }] };
-                    }
-                },
+            const docDefinition = {
                 content: [
-                    // --- PAGE 1: LUXURY COVER ---
-                    getLogo(logoBase64, 150, 'center', [0, 120, 0, 30]),
-                    { canvas: [{ type: 'line', x1: 100, y1: 0, x2: 415, y2: 0, lineWidth: 1, lineColor: '#f97316' }], margin: [0, 0, 0, 40] },
-                    { text: 'ΤΕΧΝΙΚΗ & ΟΙΚΟΝΟΜΙΚΗ', fontSize: 14, alignment: 'center', color: '#64748b', characterSpacing: 5 },
-                    { text: title, fontSize: 38, bold: true, alignment: 'center', margin: [0, 10, 0, 10], color: '#1e293b' },
-                    { text: 'ΠΡΟΣΦΟΡΑ ΕΡΓΑΣΙΩΝ', fontSize: 14, alignment: 'center', color: '#64748b', characterSpacing: 5, margin: [0, 0, 0, 40] },
-                    {
-                        table: {
-                            widths: ['*'],
-                            body: [[{
-                                text: 'ΠΡΟΣ: ' + client,
-                                alignment: 'center',
-                                fontSize: 16,
-                                bold: true,
-                                color: '#1e293b',
-                                fillColor: '#f8fafc',
-                                padding: [15, 15],
-                                border: [false, false, false, false]
-                            }]]
-                        },
-                        margin: [40, 0, 40, 0]
-                    },
-                    { text: 'ΗΜΕΡΟΜΗΝΙΑ: ' + offerDate, fontSize: 10, alignment: 'center', color: '#94a3b8', margin: [0, 100, 0, 0] },
-
-                    // --- PAGE 2: MAIN TABLE ---
-                    { text: '', pageBreak: 'before' },
                     {
                         columns: [
                             {
-                                stack: [getLogo(logoBase64, 60, 'left')]
+                                image: logoBase64,
+                                width: 140,
+                                margin: [0, 0, 0, 15]
                             },
                             {
-                                stack: [
-                                    { text: 'DP CONSTRUCTION', bold: true, color: '#1e293b', fontSize: 16 },
-                                    { text: 'ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ ΕΤΑΙΡΕΙΑ', fontSize: 9, color: '#f97316', bold: true },
-                                    { text: 'ΠΕΡΙΑΝΔΡΟΥ 20 • ΒΡΑΧΑΤΙ • ΑΦΜ: 802849066', fontSize: 8, color: '#64748b', margin: [0, 5, 0, 0] },
-                                    { text: 'Email: psychosdimitrios@gmail.com • Τηλ: 6975554238', fontSize: 8, color: '#64748b' }
-                                ], alignment: 'right'
+                                text: [
+                                    { text: 'DP CONSTRUCTION\n', style: 'companyName' },
+                                    { text: 'Τεχνική Εταιρεία\n', style: 'companySub' },
+                                    { text: 'Email: info@dpconstruction.gr\nΤηλ: 2610 123456', style: 'companyDetails' }
+                                ],
+                                alignment: 'right'
                             }
-                        ], margin: [0, 0, 0, 40]
+                        ]
                     },
-                    { text: 'ΑΝΑΛΥΤΙΚΟΣ ΠΙΝΑΚΑΣ ΕΡΓΑΣΙΩΝ', fontSize: 14, bold: true, color: '#1e293b', margin: [0, 0, 0, 20] },
+                    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, strokeColor: '#cbd5e1' }], margin: [0, 15, 0, 25] },
+                    { text: 'ΟΙΚΟΝΟΜΙΚΗ ΠΡΟΣΦΟΡΑ', style: 'mainTitle' },
+                    { text: title, style: 'projectTitle' },
+                    {
+                        columns: [
+                            {
+                                text: [
+                                    { text: 'ΠΡΟΣ:\n', style: 'infoLabel' },
+                                    { text: client, style: 'infoValue' }
+                                ]
+                            },
+                            {
+                                text: [
+                                    { text: 'ΗΜΕΡΟΜΗΝΙΑ:\n', style: 'infoLabel' },
+                                    { text: dateStr, style: 'infoValue' }
+                                ],
+                                alignment: 'right'
+                            }
+                        ],
+                        margin: [0, 0, 0, 30]
+                    },
                     {
                         table: {
-                            headerRows: 1,
-                            widths: ['*', 40, 80, 90],
-                            body: tableRows
+                            headersRows: 1,
+                            widths: [30, '*', 65, 75, 85],
+                            body: tableBody
                         },
                         layout: {
-                            hLineWidth: (i, node) => (i === 0 || i === node.table.body.length) ? 0 : 0.5,
-                            vLineWidth: () => 0,
-                            hLineColor: (i, node) => '#cbd5e1',
-                            paddingTop: (i) => (i === 0) ? 14 : 10,
-                            paddingBottom: (i) => (i === 0) ? 14 : 10,
-                            fillColor: (rowIndex) => (rowIndex === 0) ? '#1e293b' : (rowIndex % 2 === 0 ? '#f8fafc' : null)
+                            hLineWidth: function (i, node) { return (i === 0 || i === node.table.body.length) ? 0 : 0.5; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return '#e2e8f0'; },
+                            paddingLeft: function () { return 8; },
+                            paddingRight: function () { return 8; }
                         }
                     },
                     {
-                        margin: [0, 20, 0, 0],
                         columns: [
-                            { text: '' },
+                            { text: '', width: '*' },
                             {
-                                stack: [
-                                    { text: 'ΣΥΝΟΛΙΚΟ ΚΟΣΤΟΣ ΕΠΕΝΔΥΣΗΣ (ΠΡΟ ΦΠΑ 24%)', fontSize: 9, color: '#64748b', bold: true, margin: [0, 0, 0, 5] },
-                                    { text: grandTotal.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', fontSize: 24, bold: true, color: '#f97316' }
-                                ], alignment: 'right'
-                            }
-                        ]
-                    },
-
-                    // --- PAGE 3: TERMS & BANK ---
-                    { text: '', pageBreak: 'before' },
-                    { text: 'ΓΕΝΙΚΟΙ ΟΡΟΙ & ΠΡΟΫΠΟΘΕΣΕΙΣ', fontSize: 14, bold: true, color: '#1e293b', margin: [0, 0, 0, 20] },
-                    {
-                        ul: selectedTerms.length > 0 ? selectedTerms : [{ text: '---', margin: [0, 5] }],
-                        color: '#334155', fontSize: 11, lineHeight: 1.5
-                    },
-                    {
-                        margin: [0, 50, 0, 0],
-                        stack: [
-                            { text: 'ΣΤΟΙΧΕΙΑ ΤΡΑΠΕΖΙΚΟΥ ΛΟΓΑΡΙΑΣΜΟΥ (ΠΕΙΡΑΙΩΣ)', bold: true, color: '#f97316', fontSize: 10, margin: [0, 0, 0, 10] },
-                            { text: 'IBAN: GR92 0171 3350 0063 3516 9473 041', fontSize: 18, bold: true, color: '#1e293b', characterSpacing: 1 },
-                            { text: 'ΔΙΚΑΙΟΥΧΟΣ: ΨΥΧΟΣ ΔΗΜΗΤΡΙΟΣ', fontSize: 12, color: '#1e293b', bold: true, margin: [0, 5, 0, 0] }
-                        ]
-                    },
-                    {
-                        margin: [0, 50, 0, 0],
-                        columns: [
-                            {
-                                stack: [getLogo(logoBottomLeftBase64 || logoBase64, 100, 'left')]
-                            },
-                            {
-                                stack: [
-                                    { text: 'Με εκτίμηση,\n\n', alignment: 'right', bold: true, fontSize: 12, color: '#1e293b' },
-                                    { text: '__________________________\nDP CONSTRUCTION', alignment: 'right', bold: true, fontSize: 12, color: '#1e293b' }
-                                ]
+                                table: {
+                                    widths: [120, 90],
+                                    body: [
+                                        [
+                                            { text: 'ΚΑΘΑΡΗ ΑΞΙΑ:', style: 'totalLabel' },
+                                            { text: total.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', style: 'totalVal', alignment: 'right' }
+                                        ]
+                                    ]
+                                },
+                                layout: 'noBorders',
+                                margin: [0, 20, 0, 0]
                             }
                         ]
                     }
                 ],
                 styles: {
-                    tableHeader: { bold: true, fontSize: 11, color: 'white', fillColor: '#1e293b', margin: [0, 5, 0, 5], alignment: 'center' }
+                    companyName: { fontSize: 16, bold: true, color: '#0f172a' },
+                    companySub: { fontSize: 9, color: '#64748b', bold: true },
+                    companyDetails: { fontSize: 8.5, color: '#64748b' },
+                    mainTitle: { fontSize: 11, bold: true, color: '#f97316', tracking: 1.5, margin: [0, 0, 0, 4] },
+                    projectTitle: { fontSize: 18, bold: true, color: '#0f172a', margin: [0, 0, 0, 20] },
+                    infoLabel: { fontSize: 8, color: '#64748b', bold: true },
+                    infoValue: { fontSize: 11, color: '#0f172a', bold: true },
+                    tableHeader: { fontSize: 9.5, bold: true, color: '#0f172a', fillOpacity: 0.5 },
+                    subtotal: { bold: true, color: '#0f172a' },
+                    totalLabel: { fontSize: 10, bold: true, color: '#64748b' },
+                    totalVal: { fontSize: 14, bold: true, color: '#f97316' },
+                    termsHeader: { fontSize: 10, bold: true, color: '#0f172a' }
+                },
+                defaultStyle: {
+                    fontSize: 10,
+                    color: '#334155'
                 }
             };
 
-            try {
-                const pdf = pdfMake.createPdf(docDef);
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                if (isIOS) {
-                    // Στο iOS Safari το άνοιγμα του PDF είναι πιο αξιόπιστο από το forced download.
-                    pdf.open();
-                } else {
-                    pdf.download("ΠΡΟΣΦΟΡΑ_" + title + ".pdf");
-                }
-            } catch (e) {
-                console.error("PDF generation failed:", e);
-                alert("Υπήρξε σφάλμα στην παραγωγή του PDF. Θα γίνει προσπάθεια λήψης χωρίς εικόνες.");
-                try {
-                    const fallback = JSON.parse(JSON.stringify(docDef));
-                    const stripImages = (obj) => {
-                        for (let k in obj) {
-                            if (k === 'image') delete obj[k];
-                            else if (typeof obj[k] === 'object' && obj[k] !== null) stripImages(obj[k]);
-                        }
-                    };
-                    stripImages(fallback);
-                    pdfMake.createPdf(fallback).download("ΠΡΟΣΦΟΡΑ_" + title + " (NO_IMAGES).pdf");
-                } catch (fallbackError) {
-                    alert("Κρίσιμο σφάλμα: Δεν είναι δυνατή η παραγωγή του PDF.");
-                }
+            // Προσθήκη όρων εάν υπάρχουν
+            if (terms.length > 0) {
+                docDefinition.content.push(
+                    { text: 'ΓΕΝΙΚΟΙ ΟΡΟΙ & ΣΗΜΕΙΩΣΕΙΣ', style: 'termsHeader', margin: [0, 40, 0, 8] },
+                    { text: '', margin: [0, 0, 0, 4] },
+                    ...terms
+                );
             }
+
+            pdfMake.createPdf(docDefinition).download(`Προσφορά_${title.replace(/ /g, '_')}.pdf`);
         }
-
-        function addTerm(text = "", isChecked = true) {
-            const container = document.getElementById('terms-container');
-            const row = document.createElement('div');
-            row.className = 'term-row';
-            row.innerHTML = `
-            <input type="checkbox" class="term-checkbox" ${isChecked ? 'checked' : ''}>
-            <textarea class="term-text" rows="2">${text}</textarea>
-        `;
-            container.appendChild(row);
-        }
-
-        window.onload = function () {
-
-            loadSavedLogo();
-            const defaults = [
-                "Σετ γηπέδου PADEL αποτελούμενο από μεταλλικά πλαίσια διατομής RHS 100X50X2 ,RHS 40X40X2 γαλβανιζέ. Η κατασκευή θα είναι βαμμένη με ηλεκτροστατική βαφή σε RAL της επιλογής σας .Χρήση 4 μεταλλικών στηλών 6m ,διατομής RHS 100X50X2 .Περιλαμβάνει 8 προβολείς των 200 watt και τάπητα PRO PADEL TURF",
-                "Αναλώσιμα για την τοποθέτηση του τάπητα (κόλλα , ταινίες, χαλαζιακή άμμος)",
-                "Τοποθέτηση αθλητικού τάπητα",
-                "Τοποθέτηση μεταλλικής κατασκευής , υαλοπινάκων και φωτιστικών σωμάτων"
-            ];
-            defaults.forEach(text => addLine(text));
-
-            const defaultTerms = [
-                "Η επιλογή χρώματος των μεταλλικών κατασκευών είναι δωρεάν σε οποιαδήποτε απόχρωση επιθυμείτε.",
-                "Στις αναγραφόμενες τιμές δεν συμπεριλαμβάνεται ο νόμιμος Φ.Π.Α. 24%.",
-                "Η παρούσα προσφορά δεν καλύπτει τα έξοδα μεταφοράς των υλικών, καθώς και τα έξοδα διαμονής και διατροφής του συνεργείου.",
-                "Κατά τη διάρκεια των εργασιών πρέπει στον χώρο να υπάρχει ανυψωτικό μηχάνημα (κλαρκ ή γερανός) για τη φόρτωση, εκφόρτωση και τοποθέτηση των υλικών. Η χρήση ανυψωτικών μηχανημάτων δεν περιλαμβάνεται στην παρούσα προσφορά.",
-                "Τρόπος πληρωμής: 50% προκαταβολή με την ανάθεση του έργου, 30% με τη φόρτωση των υλικών και 20% εξόφληση με την περαίωση των εργασιών.",
-                "Ο συνθετικός τάπητας συνοδεύεται από πιστοποιητικό καταλληλότητας ΕΝ-71-3 για πολυκυκλικούς υδρογονάνθρακες."
-            ];
-            defaultTerms.forEach(text => addTerm(text));
-
-            // Set default date to today
-            const now = new Date();
-            const today = [
-                now.getFullYear(),
-                String(now.getMonth() + 1).padStart(2, '0'),
-                String(now.getDate()).padStart(2, '0')
-            ].join('-');
-            document.getElementById('offerDate').value = today;
-        };
     </script>
 </body>
 
