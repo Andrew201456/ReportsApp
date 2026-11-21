@@ -329,6 +329,274 @@
             .hero h1 { font-size: 28px; }
             .pill { display: none; }
         }
+
+        /* ---------- DP Construction / editorial UI refresh ----------
+           Pure presentation layer: no changes to line-items, checkbox or PDF logic. */
+        :root {
+            --main: #192844;
+            --ink: #12213a;
+            --accent: #f97825;
+            --accent-2: #ffaf64;
+            --accent-soft: #fff1e7;
+            --light-bg: #f7f9fc;
+            --line: #e3e9f3;
+            --muted: #6d7b91;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 2% 8%, rgba(253, 167, 99, .11), transparent 32%),
+                radial-gradient(circle at 98% 34%, rgba(103, 132, 181, .08), transparent 30%),
+                #f3f5f9;
+        }
+        .topbar {
+            isolation: isolate;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 84% 43%, rgba(251, 146, 60, .23), transparent 35%),
+                radial-gradient(ellipse at 15% 95%, rgba(66, 101, 156, .22), transparent 48%),
+                linear-gradient(120deg, #0b1425 3%, #152640 68%, #1b304d 100%);
+        }
+        .topbar::before {
+            content: "";
+            position: absolute; inset: 0; z-index: -1;
+            background-image:
+                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size: 44px 44px;
+            -webkit-mask-image: linear-gradient(100deg, transparent, #000 65%);
+            mask-image: linear-gradient(100deg, transparent, #000 65%);
+            pointer-events: none;
+        }
+        .topbar::after {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 4%, #f97825 25%, #ffc18d 53%, transparent 94%);
+        }
+        .topbar-inner {
+            max-width: 820px;
+            position: relative;
+            padding: 23px 20px 14px;
+            gap: 18px;
+        }
+        .brand { gap: 12px; }
+        .brand-mark {
+            width: 58px; height: 58px;
+            border: 1px solid rgba(255,255,255,.58);
+            border-radius: 17px;
+            background: linear-gradient(145deg, #ffffff, #f6f3ef);
+            box-shadow: 0 16px 32px -16px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.85);
+            overflow: hidden;
+            padding: 4px;
+        }
+        .brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+        .brand-copy { min-width: 0; }
+        .brand-overline {
+            display: block;
+            margin-bottom: 4px;
+            color: #f6ab78;
+            font-size: 9px; font-weight: 800; letter-spacing: 2.1px;
+        }
+        .brand strong { font-size: 17px; letter-spacing: -.2px; color: #fff; white-space: nowrap; }
+        .brand strong span { font-weight: 600; color: #d4dce8; }
+        .header-edition {
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 9px 12px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 999px;
+            color: #d8e1ed; background: rgba(255,255,255,.055);
+            font-size: 9px; font-weight: 800; letter-spacing: 1.1px; white-space: nowrap;
+        }
+        .live-dot {
+            width: 6px; height: 6px; flex: none;
+            border-radius: 50%; background: #ff9857;
+            box-shadow: 0 0 0 4px rgba(249,120,37,.13), 0 0 16px rgba(249,120,37,.55);
+        }
+        .header-feature {
+            width: 100%; max-width: 820px;
+            margin: 0 auto;
+            padding: 39px 20px 44px;
+            display: grid; grid-template-columns: minmax(0, 1fr) 225px;
+            align-items: center; gap: 30px;
+            position: relative; z-index: 1;
+        }
+        .header-copy { min-width: 0; }
+        .header-eyebrow {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 10px; font-weight: 800; letter-spacing: 1.55px;
+            color: #ffc08e;
+        }
+        .eyebrow-line { width: 21px; height: 2px; background: #ff9b54; border-radius: 3px; }
+        .header-copy h1 {
+            font-size: clamp(38px, 5.8vw, 58px);
+            line-height: 1.07;
+            letter-spacing: -2.4px;
+            font-weight: 850;
+            color: #fff;
+            margin: 19px 0 16px;
+        }
+        .header-copy h1 em {
+            font-style: normal; color: #ffa866;
+            background: linear-gradient(90deg, #ffa35a, #ffca98);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-copy > p {
+            max-width: 430px;
+            margin: 0;
+            font-size: 14px; line-height: 1.75;
+            color: #b7c4d6;
+        }
+        .header-steps {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            margin-top: 25px;
+        }
+        .header-steps span {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 10px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.055);
+            border-radius: 9px;
+            color: #d9e3ee; font-size: 11px; font-weight: 600;
+        }
+        .header-steps b { color: #ffa866; font-size: 10px; letter-spacing: .6px; }
+        .header-art {
+            position: relative; width: 225px; height: 228px;
+            display: grid; place-items: center;
+        }
+        .art-halo {
+            position: absolute; inset: 0; border-radius: 50%;
+            border: 1px solid rgba(250, 170, 105, .23);
+            transform: rotate(-18deg) scale(.96);
+            box-shadow: 0 0 0 26px rgba(255,255,255,.015), 0 0 0 52px rgba(255,255,255,.011);
+        }
+        .art-sheet {
+            position: absolute; border-radius: 11px;
+            width: 157px; height: 202px;
+            box-shadow: 0 23px 50px rgba(1,6,17,.32);
+        }
+        .art-sheet-back {
+            background: #294565;
+            border: 1px solid rgba(255,255,255,.19);
+            transform: translate(19px, -7px) rotate(13deg);
+        }
+        .art-sheet-front {
+            padding: 19px 17px;
+            background: linear-gradient(145deg, #fff, #f3f5f8);
+            transform: translate(-8px, 10px) rotate(-7deg);
+            border: 1px solid rgba(255,255,255,.78);
+        }
+        .art-sheet-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+        .art-sheet-brand span { font-size: 23px; font-weight: 900; letter-spacing: 2px; color: #182a43; }
+        .art-sheet-brand small { font-size: 6px; letter-spacing: 1.4px; font-weight: 800; color: #65748a; }
+        .art-rule { height: 6px; background: #dce3ec; border-radius: 2px; margin: 10px 0; }
+        .art-rule-accent { height: 3px; background: #f97825; margin: 15px 0 13px; }
+        .art-rule-long { width: 95%; }
+        .art-rule-mid { width: 73%; }
+        .art-rule-short { width: 85%; }
+        .art-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #dfe4ec; margin-top: 17px; padding-top: 11px; }
+        .art-total span { color: #7c8aa0; font-size: 7px; font-weight: 800; letter-spacing: .8px; }
+        .art-total strong { color: #f97825; font-size: 17px; font-weight: 900; }
+        .art-spark { position: absolute; width: 7px; height: 7px; background: #ffa866; transform: rotate(45deg); border-radius: 2px; }
+        .art-spark-one { top: 21px; right: 6px; }
+        .art-spark-two { bottom: 17px; left: 9px; width: 4px; height: 4px; opacity: .7; }
+
+        .container { max-width: 780px; padding-top: 34px; }
+        .hero { margin: 0 7px 25px; }
+        .hero-kicker {
+            display: flex; align-items: center; gap: 9px;
+            color: #8996ab; font-size: 10px; font-weight: 800; letter-spacing: 1.8px;
+            margin-bottom: 11px;
+        }
+        .hero-kicker span { width: 19px; height: 3px; background: #f97825; border-radius: 10px; }
+        .hero h2 {
+            margin: 0; color: #12213a;
+            font-size: clamp(26px, 4vw, 34px); line-height: 1.2;
+            font-weight: 850; letter-spacing: -1px;
+        }
+        .hero h2 span { color: #f97825; }
+        .hero p { margin-top: 9px; font-size: 14px; }
+        .container > .card {
+            border: 1px solid rgba(222,229,239,.95);
+            border-radius: 25px;
+            background: #fff;
+            box-shadow: 0 19px 50px -28px rgba(25,42,67,.22), 0 1px 3px rgba(25,42,67,.03);
+        }
+        .container > .card:first-of-type { padding-top: 24px; }
+        .section-title { letter-spacing: 1.25px; }
+        .section-title .step {
+            width: 31px; height: 31px; border-radius: 10px;
+            background: #192b47;
+            box-shadow: 0 5px 13px -6px rgba(14,30,53,.6);
+        }
+        .logo-box {
+            background: linear-gradient(145deg, #fff, #f7f9fc);
+            border-color: #d9e2ef;
+            border-radius: 17px;
+        }
+        .logo-box:hover { border-color: #ffaf77; background: #fffaf7; }
+        .logo-box img { max-height: 115px; border-radius: 0; }
+        .logo-hint {
+            border-color: #f3d4bf;
+            background: #fff4eb;
+            color: #b6571d;
+            font-size: 10px;
+        }
+        input:not([type="checkbox"]):not([type="file"]), textarea {
+            border-color: #e0e7f0;
+            border-radius: 13px;
+            background: #f8fafc;
+        }
+        input:not([type="checkbox"]):not([type="file"]):focus, textarea:focus {
+            border-color: #f7995c;
+            box-shadow: 0 0 0 4px rgba(249,120,37,.10);
+        }
+        input::placeholder, textarea::placeholder { color: #a1adbe; }
+        .btn-add {
+            border-radius: 15px;
+            border-color: #b9cbe0;
+            background: #f9fbfe;
+        }
+        .btn-add:hover { border-color: #f9a36a; color: #bd571b; background: #fff9f4; }
+        .footer-nav {
+            background: rgba(255,255,255,.94);
+            border-top: 1px solid rgba(214,224,237,.95);
+            box-shadow: 0 -12px 40px -20px rgba(20,40,69,.25);
+        }
+        .footer-inner { max-width: 750px; }
+        .btn-pdf {
+            border-radius: 15px;
+            background: linear-gradient(120deg, #16804d, #13a36a);
+            box-shadow: 0 11px 23px -10px rgba(19,137,86,.42);
+        }
+        .btn-pdf:hover { filter: brightness(1.06); }
+        .total-amount { letter-spacing: -.7px; }
+        @media (max-width: 670px) {
+            .header-feature { grid-template-columns: minmax(0,1fr) 150px; gap: 4px; padding-top: 30px; padding-bottom: 36px; }
+            .header-art { transform: scale(.75); transform-origin: center right; }
+            .header-copy h1 { font-size: clamp(37px, 7vw, 48px); }
+        }
+        @media (max-width: 530px) {
+            .topbar-inner { padding: 17px 17px 11px; }
+            .brand-mark { width: 51px; height: 51px; border-radius: 14px; }
+            .brand strong { font-size: 15px; }
+            .brand-overline { font-size: 8px; letter-spacing: 1.6px; }
+            .header-edition { font-size: 0; gap: 0; padding: 10px; }
+            .header-edition .live-dot { width: 7px; height: 7px; }
+            .header-feature { display: block; padding: 28px 19px 34px; }
+            .header-art { display: none; }
+            .header-copy h1 { font-size: clamp(39px, 10vw, 48px); letter-spacing: -1.8px; margin: 15px 0 13px; }
+            .header-copy > p { font-size: 13px; line-height: 1.6; max-width: 350px; }
+            .header-eyebrow { font-size: 8px; letter-spacing: 1.15px; }
+            .header-steps { gap: 6px; margin-top: 21px; }
+            .header-steps span { padding: 7px 8px; font-size: 10px; gap: 6px; }
+            .container { padding-top: 29px; }
+            .hero h2 { font-size: 27px; }
+            .hero-kicker { font-size: 9px; }
+            .footer-nav { padding-top: 12px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .btn-pdf, .btn-add, .logo-box, .card { transition: none; }
+        }
     </style>
     <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
     <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
@@ -342,20 +610,47 @@
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand">
-                <span class="brand-mark">DP</span>
-                <div>
-                    <strong>DP CONSTRUCTION</strong>
-                    <small>Δημιουργία Προσφοράς</small>
+                <span class="brand-mark"><img src="assets/dp-construction-logo.svg" alt="DP Construction"></span>
+                <div class="brand-copy">
+                    <span class="brand-overline">CONSTRUCTION STUDIO</span>
+                    <strong>DP <span>CONSTRUCTION</span></strong>
                 </div>
             </div>
-            
+            <span class="header-edition"><span class="live-dot"></span> OFFER WORKSPACE</span>
+        </div>
+        <div class="header-feature">
+            <div class="header-copy">
+                <div class="header-eyebrow"><span class="eyebrow-line"></span> ΚΑΘΕ ΕΡΓΟ ΞΕΚΙΝΑ ΜΕ ΜΙΑ ΙΔΕΑ</div>
+                <h1>Προσφορές με<br><em>υπογραφή.</em></h1>
+                <p>Από την πρώτη εργασία ως το τελικό PDF. Οργάνωσε την προσφορά σου με τον τρόπο σου.</p>
+                <div class="header-steps" aria-label="Τα τρία βήματα της προσφοράς">
+                    <span><b>01</b> Στοιχεία</span>
+                    <span><b>02</b> Εργασίες</span>
+                    <span><b>03</b> Όροι &amp; PDF</span>
+                </div>
+            </div>
+            <div class="header-art" aria-hidden="true">
+                <div class="art-halo"></div>
+                <div class="art-sheet art-sheet-back"></div>
+                <div class="art-sheet art-sheet-front">
+                    <div class="art-sheet-brand"><span>DP</span><small>CONSTRUCTION</small></div>
+                    <div class="art-rule art-rule-accent"></div>
+                    <div class="art-rule art-rule-long"></div>
+                    <div class="art-rule art-rule-mid"></div>
+                    <div class="art-rule art-rule-short"></div>
+                    <div class="art-total"><span>ΠΡΟΣΦΟΡΑ</span><strong>€</strong></div>
+                </div>
+                <div class="art-spark art-spark-one"></div>
+                <div class="art-spark art-spark-two"></div>
+            </div>
         </div>
     </header>
 
     <div class="container">
         <div class="hero">
-            <h1>Νέα Προσφορά</h1>
-            <p>Συμπλήρωσε τα στοιχεία, πρόσθεσε τις εργασίες και εξέδωσε έτοιμο PDF.</p>
+            <div class="hero-kicker"><span></span> Η ΕΠΟΜΕΝΗ ΣΟΥ ΠΡΟΣΦΟΡΑ</div>
+            <h2>Ξεκίνα από τα βασικά<span>.</span></h2>
+            <p>Συμπλήρωσε τα στοιχεία του έργου και χτίσε την προσφορά σου, βήμα βήμα.</p>
         </div>
 
         <div class="card">
