@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#0b1220">
+    <meta name="theme-color" content="#101f35">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
@@ -605,6 +605,41 @@
             .brand small { display: none; }
             .install-button svg { width: 14px; height: 14px; }
         }
+        /* Dark navy application background — keep form surfaces light for legibility. */
+        body {
+            background:
+                radial-gradient(ellipse 90% 48% at 12% 0%, rgba(49, 82, 128, .29), transparent 66%),
+                linear-gradient(145deg, #101f35 0%, #0b1729 54%, #14263e 100%);
+            background-attachment: fixed;
+            color: #e7edf5;
+        }
+        .topbar {
+            background: #101f35;
+            color: #f8fbff;
+            border-bottom: 1px solid rgba(199, 216, 237, .15);
+        }
+        .brand strong { color: #f8fbff; }
+        .brand small { color: #b4c3d6; }
+        .brand-mark { background: #fff; border-color: rgba(255,255,255,.35); }
+        .install-button { background: #fff; color: #13243c; border-color: #fff; }
+        .install-button:hover { background: #e8eff7; }
+        .hero h1 { color: #f8fbff; }
+        .hero p { color: #bbcada; }
+        .container > .section-title { color: #e8f0fa; }
+        .container > .section-title .step { background: #eaf0f8; color: #132741; }
+        .container > .card, .line-item {
+            background: #fff;
+            color: #23324b;
+            border-color: rgba(255,255,255,.85);
+            box-shadow: 0 11px 28px rgba(0,6,19,.19);
+        }
+        .btn-add {
+            background: #eef3f9;
+            border-color: #a5b7ce;
+            color: #1c304d;
+        }
+        .btn-add:hover { background: #fff; border-color: #f0a16d; }
+        .footer-nav { box-shadow: 0 -10px 28px rgba(1,10,25,.3); }
     </style>
     <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
     <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
