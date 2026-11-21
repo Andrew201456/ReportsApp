@@ -445,7 +445,7 @@
             padding: 0 12px;
             border: 1px solid #f2d3d3; border-radius: 8px;
             background: #fff7f7; color: #b44141;
-            font-size: 11px;
+            font-size: 11px; font-family: inherit; cursor: pointer;
         }
         .remove-btn:hover { background: #ffecec; }
         .line-item .work-description {
@@ -665,7 +665,7 @@
             div.className = 'card line-item';
             div.id = `line-${id}`;
             div.innerHTML = `
-            <span class="remove-btn" onclick="removeLine(${id})">ΔΙΑΓΡΑΦΗ</span>
+            <button type="button" class="remove-btn" onclick="removeLine(${id})" aria-label="Διαγραφή ενότητας εργασίας">ΔΙΑΓΡΑΦΗ</button>
             <label for="desc-${id}">ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
             <textarea id="desc-${id}" class="work-description" oninput="updateTotal()" rows="5" placeholder="Γράψε την περιγραφή της εργασίας...">${text}</textarea>
             <div class="line-metrics">
@@ -944,8 +944,12 @@
            Δεν αγγίζει τη λογική του PDF. */
         (function () {
             function autosize(el) {
-                el.style.height = 'auto';
-                el.style.height = (el.scrollHeight + 2) + 'px';
+                // Expand to fit long text without overriding a height manually
+                // chosen by dragging the textarea's resize handle.
+                const required = el.scrollHeight + 2;
+                if (required > el.getBoundingClientRect().height + 1) {
+                    el.style.height = required + 'px';
+                }
             }
             function enhance(root) {
                 root.querySelectorAll('[id^="qty-"]').forEach(function (el) {
