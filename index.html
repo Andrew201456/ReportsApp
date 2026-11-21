@@ -640,6 +640,107 @@
         }
         .btn-add:hover { background: #fff; border-color: #f0a16d; }
         .footer-nav { box-shadow: 0 -10px 28px rgba(1,10,25,.3); }
+
+        /* Full dark navy UI: layered surfaces and accessible text contrast. */
+        :root {
+            color-scheme: dark;
+            --main:#dce8f7; --ink:#f1f6ff; --accent:#82b9f7;
+            --accent-2:#a1cfff; --accent-soft:#213d5d;
+            --light-bg:#0f2238; --line:#3b536f;
+            --muted:#a9bdd6; --danger:#eeb1bd;
+        }
+        body {
+            background:linear-gradient(145deg,#081628,#0b1b30 55%,#10233b);
+            background-attachment:fixed; color:#eef5ff;
+        }
+        .topbar { background:#0d1d32; color:#f4f8ff; border-bottom:1px solid #304662; }
+        .brand strong { color:#f4f8ff; }
+        .brand small { color:#b2c5db; }
+        .brand-mark { background:#eef3f9; border-color:#48607c; }
+        .install-button { background:#294461; border-color:#4c6888; color:#f6faff; }
+        .install-button:hover { background:#395879; }
+        .install-button:focus-visible { outline-color:#8fc3fa; }
+        .hero h1,.hero h2,.container>.section-title { color:#f4f8ff; }
+        .hero p { color:#b4c6dd; }
+        .section-title { color:#eff5ff; }
+        .section-title .step,.container>.section-title .step {
+            background:#314e71; color:#fff; box-shadow:none;
+        }
+        .card,.container>.card,.line-item {
+            background:#172a44; color:#ecf4ff;
+            border:1px solid #354c68;
+            box-shadow:0 9px 25px rgba(1,8,19,.22);
+        }
+        .card>.section-title { color:#f2f7ff; }
+        .section-hint,label,.metric-field label,.line-item>label { color:#bccde3; }
+        input:not([type="checkbox"]):not([type="file"]),textarea,
+        .line-item .work-description,.metric-field input[type="number"],.term-text {
+            background:#0e2036; border-color:#39516f;
+            color:#f3f8ff; caret-color:#a1cfff;
+        }
+        input:not([type="checkbox"]):not([type="file"]):focus,textarea:focus,
+        .line-item .work-description:focus,.metric-field input[type="number"]:focus,.term-text:focus {
+            background:#142b46; border-color:#8cbff7;
+            color:#fff; box-shadow:0 0 0 3px rgba(127,184,250,.16);
+        }
+        input::placeholder,textarea::placeholder { color:#9cb1cd; opacity:1; }
+        input[type="date"] { color-scheme:dark; }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter:brightness(1.6); }
+        .logo-box,.logo-box:active { background:#102239; color:#f2f7ff; border-color:#39516f; }
+        .logo-box:hover { background:#1b324f; border-color:#84b9f5; }
+        .logo-box img { background:#eef3f9; border-radius:7px; padding:6px; }
+        .logo-hint { color:#bdd8f8; background:transparent; }
+        .logo-box:focus-visible { outline-color:#86bbf6; }
+        .line-item::after { background:#527ca8; }
+        .line-item::before { background:#264363; color:#e0ecfb; }
+        .remove-btn,.term-delete {
+            background:#263b56; border-color:#536783; color:#ffd3d9;
+        }
+        .remove-btn:hover,.term-delete:hover,.remove-btn:active,.term-delete:active {
+            background:#3b536e; border-color:#8ca2bd; color:#fff;
+        }
+        .price-suffix { color:#bdd0e7; }
+        .line-subtotal { background:#213955; border:1px solid #3c5572; }
+        .line-subtotal span { color:#b9cde4; }
+        .line-subtotal strong { color:#f6faff; }
+        .term-row,.term-row:has(.term-checkbox:not(:checked)) {
+            background:#11243b; border-color:#354e6c; box-shadow:none;
+        }
+        .term-row:has(.term-checkbox:checked) {
+            background:#1b3655; border-color:#6c9fd6; box-shadow:none;
+        }
+        .term-row:has(.term-checkbox:not(:checked)) .term-text { opacity:1; }
+        .term-checkbox { background:#0b1d32; border-color:#8ca6c5; }
+        .term-checkbox:checked {
+            background:#387dbf; border-color:#8dbff8;
+            box-shadow:0 0 0 3px rgba(108,170,240,.14);
+        }
+        .term-checkbox:focus-visible { outline:3px solid #8fc3fa; outline-offset:2px; }
+        .btn-add,.term-add {
+            color:#eaf3ff; background:#213955; border-color:#4c6a8d;
+        }
+        .btn-add:hover,.term-add:hover {
+            background:#2c496b; border-color:#8cbff7; color:#fff;
+        }
+        .btn-add:active,.term-add:active {
+            background:#37577c; border-color:#8cbff7; color:#fff;
+        }
+        .footer-nav {
+            background:rgba(13,29,50,.97);
+            border-top:1px solid #344c68;
+            box-shadow:0 -12px 28px rgba(0,5,15,.35);
+        }
+        .total-label { color:#bccde4; }
+        .total-amount { color:#f5f9ff; }
+        .total-amount span { color:#a1cfff; }
+        .install-dialog {
+            background:#172a44; color:#f2f7ff; border-color:#466281;
+        }
+        .install-dialog h2 { color:#f8fbff; }
+        .install-dialog p,.install-dialog li { color:#c4d3e8; }
+        .install-dialog-close { color:#d3e1f1; }
+        .install-dialog-dismiss { background:#315276; color:#fff; }
+        .install-dialog-dismiss:hover { background:#3b658e; }
     </style>
     <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
     <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
