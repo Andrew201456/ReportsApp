@@ -330,274 +330,218 @@
             .pill { display: none; }
         }
 
-        /* ---------- DP Construction / editorial UI refresh ----------
-           Pure presentation layer: no changes to line-items, checkbox or PDF logic. */
+        /* Functional, compact UI — editing is the priority. */
         :root {
-            --main: #192844;
-            --ink: #12213a;
-            --accent: #f97825;
-            --accent-2: #ffaf64;
-            --accent-soft: #fff1e7;
-            --light-bg: #f7f9fc;
-            --line: #e3e9f3;
-            --muted: #6d7b91;
+            --main: #23324b;
+            --ink: #1c2a3f;
+            --accent: #ec762e;
+            --accent-2: #f69b59;
+            --accent-soft: #fff3e9;
+            --light-bg: #fbfcfe;
+            --line: #dae2eb;
+            --muted: #66758b;
         }
-
-        body {
-            background:
-                radial-gradient(circle at 2% 8%, rgba(253, 167, 99, .11), transparent 32%),
-                radial-gradient(circle at 98% 34%, rgba(103, 132, 181, .08), transparent 30%),
-                #f3f5f9;
-        }
+        body { background: #f3f5f8; }
         .topbar {
-            isolation: isolate;
-            overflow: hidden;
-            background:
-                radial-gradient(ellipse at 84% 43%, rgba(251, 146, 60, .23), transparent 35%),
-                radial-gradient(ellipse at 15% 95%, rgba(66, 101, 156, .22), transparent 48%),
-                linear-gradient(120deg, #0b1425 3%, #152640 68%, #1b304d 100%);
+            background: #17273f;
+            overflow: visible;
         }
-        .topbar::before {
-            content: "";
-            position: absolute; inset: 0; z-index: -1;
-            background-image:
-                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-            background-size: 44px 44px;
-            -webkit-mask-image: linear-gradient(100deg, transparent, #000 65%);
-            mask-image: linear-gradient(100deg, transparent, #000 65%);
-            pointer-events: none;
-        }
-        .topbar::after {
-            height: 2px;
-            background: linear-gradient(90deg, transparent 4%, #f97825 25%, #ffc18d 53%, transparent 94%);
-        }
+        .topbar::after { height: 2px; background: #ec762e; }
         .topbar-inner {
             max-width: 820px;
-            position: relative;
-            padding: 23px 20px 14px;
-            gap: 18px;
+            padding: 12px 20px 14px;
+            justify-content: space-between;
         }
         .brand { gap: 12px; }
         .brand-mark {
-            width: 58px; height: 58px;
-            border: 1px solid rgba(255,255,255,.58);
-            border-radius: 17px;
-            background: linear-gradient(145deg, #ffffff, #f6f3ef);
-            box-shadow: 0 16px 32px -16px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.85);
-            overflow: hidden;
-            padding: 4px;
+            width: 48px; height: 48px;
+            border-radius: 11px;
+            padding: 4px; overflow: hidden;
+            background: #fff;
+            border: 1px solid rgba(255,255,255,.4);
+            box-shadow: none;
         }
         .brand-mark img { width: 100%; height: 100%; object-fit: contain; }
         .brand-copy { min-width: 0; }
-        .brand-overline {
-            display: block;
-            margin-bottom: 4px;
-            color: #f6ab78;
-            font-size: 9px; font-weight: 800; letter-spacing: 2.1px;
+        .brand strong { display: block; font-size: 15px; color: #fff; font-weight: 800; letter-spacing: .35px; }
+        .brand small { color: #b6c4d8; font-size: 12px; margin-top: 3px; }
+        .header-label {
+            color: #d4dfea; font-size: 10px; letter-spacing: 1px; font-weight: 800;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 7px; padding: 8px 10px;
+            white-space: nowrap;
         }
-        .brand strong { font-size: 17px; letter-spacing: -.2px; color: #fff; white-space: nowrap; }
-        .brand strong span { font-weight: 600; color: #d4dce8; }
-        .header-edition {
-            display: inline-flex; align-items: center; gap: 9px;
-            padding: 9px 12px;
-            border: 1px solid rgba(255,255,255,.15);
-            border-radius: 999px;
-            color: #d8e1ed; background: rgba(255,255,255,.055);
-            font-size: 9px; font-weight: 800; letter-spacing: 1.1px; white-space: nowrap;
-        }
-        .live-dot {
-            width: 6px; height: 6px; flex: none;
-            border-radius: 50%; background: #ff9857;
-            box-shadow: 0 0 0 4px rgba(249,120,37,.13), 0 0 16px rgba(249,120,37,.55);
-        }
-        .header-feature {
-            width: 100%; max-width: 820px;
-            margin: 0 auto;
-            padding: 39px 20px 44px;
-            display: grid; grid-template-columns: minmax(0, 1fr) 225px;
-            align-items: center; gap: 30px;
-            position: relative; z-index: 1;
-        }
-        .header-copy { min-width: 0; }
-        .header-eyebrow {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 10px; font-weight: 800; letter-spacing: 1.55px;
-            color: #ffc08e;
-        }
-        .eyebrow-line { width: 21px; height: 2px; background: #ff9b54; border-radius: 3px; }
-        .header-copy h1 {
-            font-size: clamp(38px, 5.8vw, 58px);
-            line-height: 1.07;
-            letter-spacing: -2.4px;
-            font-weight: 850;
-            color: #fff;
-            margin: 19px 0 16px;
-        }
-        .header-copy h1 em {
-            font-style: normal; color: #ffa866;
-            background: linear-gradient(90deg, #ffa35a, #ffca98);
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .header-copy > p {
-            max-width: 430px;
-            margin: 0;
-            font-size: 14px; line-height: 1.75;
-            color: #b7c4d6;
-        }
-        .header-steps {
-            display: flex; flex-wrap: wrap; gap: 8px;
-            margin-top: 25px;
-        }
-        .header-steps span {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 10px;
-            border: 1px solid rgba(255,255,255,.12);
-            background: rgba(255,255,255,.055);
-            border-radius: 9px;
-            color: #d9e3ee; font-size: 11px; font-weight: 600;
-        }
-        .header-steps b { color: #ffa866; font-size: 10px; letter-spacing: .6px; }
-        .header-art {
-            position: relative; width: 225px; height: 228px;
-            display: grid; place-items: center;
-        }
-        .art-halo {
-            position: absolute; inset: 0; border-radius: 50%;
-            border: 1px solid rgba(250, 170, 105, .23);
-            transform: rotate(-18deg) scale(.96);
-            box-shadow: 0 0 0 26px rgba(255,255,255,.015), 0 0 0 52px rgba(255,255,255,.011);
-        }
-        .art-sheet {
-            position: absolute; border-radius: 11px;
-            width: 157px; height: 202px;
-            box-shadow: 0 23px 50px rgba(1,6,17,.32);
-        }
-        .art-sheet-back {
-            background: #294565;
-            border: 1px solid rgba(255,255,255,.19);
-            transform: translate(19px, -7px) rotate(13deg);
-        }
-        .art-sheet-front {
-            padding: 19px 17px;
-            background: linear-gradient(145deg, #fff, #f3f5f8);
-            transform: translate(-8px, 10px) rotate(-7deg);
-            border: 1px solid rgba(255,255,255,.78);
-        }
-        .art-sheet-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
-        .art-sheet-brand span { font-size: 23px; font-weight: 900; letter-spacing: 2px; color: #182a43; }
-        .art-sheet-brand small { font-size: 6px; letter-spacing: 1.4px; font-weight: 800; color: #65748a; }
-        .art-rule { height: 6px; background: #dce3ec; border-radius: 2px; margin: 10px 0; }
-        .art-rule-accent { height: 3px; background: #f97825; margin: 15px 0 13px; }
-        .art-rule-long { width: 95%; }
-        .art-rule-mid { width: 73%; }
-        .art-rule-short { width: 85%; }
-        .art-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #dfe4ec; margin-top: 17px; padding-top: 11px; }
-        .art-total span { color: #7c8aa0; font-size: 7px; font-weight: 800; letter-spacing: .8px; }
-        .art-total strong { color: #f97825; font-size: 17px; font-weight: 900; }
-        .art-spark { position: absolute; width: 7px; height: 7px; background: #ffa866; transform: rotate(45deg); border-radius: 2px; }
-        .art-spark-one { top: 21px; right: 6px; }
-        .art-spark-two { bottom: 17px; left: 9px; width: 4px; height: 4px; opacity: .7; }
-
-        .container { max-width: 780px; padding-top: 34px; }
-        .hero { margin: 0 7px 25px; }
-        .hero-kicker {
-            display: flex; align-items: center; gap: 9px;
-            color: #8996ab; font-size: 10px; font-weight: 800; letter-spacing: 1.8px;
-            margin-bottom: 11px;
-        }
-        .hero-kicker span { width: 19px; height: 3px; background: #f97825; border-radius: 10px; }
-        .hero h2 {
-            margin: 0; color: #12213a;
-            font-size: clamp(26px, 4vw, 34px); line-height: 1.2;
-            font-weight: 850; letter-spacing: -1px;
-        }
-        .hero h2 span { color: #f97825; }
-        .hero p { margin-top: 9px; font-size: 14px; }
-        .container > .card {
-            border: 1px solid rgba(222,229,239,.95);
-            border-radius: 25px;
+        .container { max-width: 820px; padding: 24px 16px calc(200px + var(--safe-bottom)); }
+        .hero { margin: 0 4px 20px; }
+        .hero h1 { font-size: 27px; letter-spacing: -.7px; color: var(--ink); }
+        .hero p { margin-top: 6px; font-size: 14px; }
+        .card, .container > .card {
+            border-radius: 17px; border: 1px solid #e3e9f0;
+            box-shadow: 0 2px 12px rgba(20,38,64,.045);
+            padding: 22px;
             background: #fff;
-            box-shadow: 0 19px 50px -28px rgba(25,42,67,.22), 0 1px 3px rgba(25,42,67,.03);
         }
-        .container > .card:first-of-type { padding-top: 24px; }
-        .section-title { letter-spacing: 1.25px; }
+        .section-title {
+            font-size: 13px; letter-spacing: .65px;
+            margin-top: 20px; margin-bottom: 15px;
+            color: #27364e;
+        }
         .section-title .step {
-            width: 31px; height: 31px; border-radius: 10px;
-            background: #192b47;
-            box-shadow: 0 5px 13px -6px rgba(14,30,53,.6);
+            width: 30px; height: 30px; border-radius: 9px;
+            background: #223654; box-shadow: none;
         }
-        .logo-box {
-            background: linear-gradient(145deg, #fff, #f7f9fc);
-            border-color: #d9e2ef;
-            border-radius: 17px;
-        }
-        .logo-box:hover { border-color: #ffaf77; background: #fffaf7; }
-        .logo-box img { max-height: 115px; border-radius: 0; }
-        .logo-hint {
-            border-color: #f3d4bf;
-            background: #fff4eb;
-            color: #b6571d;
-            font-size: 10px;
-        }
+        label { font-size: 12px; letter-spacing: .55px; font-weight: 800; color: #37465d; margin-top: 18px; }
         input:not([type="checkbox"]):not([type="file"]), textarea {
-            border-color: #e0e7f0;
-            border-radius: 13px;
-            background: #f8fafc;
+            font-family: inherit;
+            font-size: 16px;
+            line-height: 1.55;
+            border: 1.5px solid #dce4ee;
+            border-radius: 12px;
+            color: #17263b;
+            background: #fbfcff;
+            padding: 14px 15px;
+            min-height: 52px;
         }
         input:not([type="checkbox"]):not([type="file"]):focus, textarea:focus {
-            border-color: #f7995c;
-            box-shadow: 0 0 0 4px rgba(249,120,37,.10);
+            outline: none;
+            border-color: #ec762e;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(236,118,46,.13);
         }
-        input::placeholder, textarea::placeholder { color: #a1adbe; }
-        .btn-add {
-            border-radius: 15px;
-            border-color: #b9cbe0;
-            background: #f9fbfe;
+        input::placeholder, textarea::placeholder { color: #96a4b7; }
+        input, textarea, button { scroll-margin-bottom: 165px; }
+        .logo-box {
+            display: flex; align-items: center; justify-content: flex-start;
+            text-align: left; gap: 15px;
+            width: 100%; padding: 12px 15px;
+            border-radius: 12px; border: 1px solid #e3e9f0;
+            background: #fafbfd;
+            cursor: pointer;
+            box-shadow: none;
+            font-family: inherit;
         }
-        .btn-add:hover { border-color: #f9a36a; color: #bd571b; background: #fff9f4; }
+        .logo-box img { max-width: 95px; max-height: 68px; width: auto; height: auto; margin: 0; border-radius: 0; }
+        .logo-hint {
+            margin: 0; padding: 0; border: 0; border-radius: 0;
+            font-size: 12px; letter-spacing: .1px;
+            color: #b65b23; background: transparent;
+        }
+        .logo-box:hover { border-color: #edaa7e; background: #fffaf6; }
+        .logo-box:focus-visible { outline: 3px solid rgba(236,118,46,.26); outline-offset: 2px; }
+        /* Keep the established section numbering and delete controls, but
+           give descriptions and financial fields more comfortable space. */
+        .line-item { margin-bottom: 13px; padding: 22px; }
+        .line-item::before {
+            background: #eff3f9; color: #384c68;
+            border-radius: 8px; padding: 0 12px;
+            font-size: 11px; height: 33px;
+            letter-spacing: 1px;
+        }
+        .line-item > label:first-of-type { margin-top: 23px; }
+        .remove-btn {
+            right: 20px; top: 22px;
+            min-height: 33px;
+            display: inline-flex; align-items: center;
+            padding: 0 12px;
+            border: 1px solid #f2d3d3; border-radius: 8px;
+            background: #fff7f7; color: #b44141;
+            font-size: 11px;
+        }
+        .remove-btn:hover { background: #ffecec; }
+        .line-item .work-description {
+            display: block; width: 100%;
+            min-height: 160px;
+            line-height: 1.65;
+            padding: 16px;
+            font-size: 16px;
+            background: #fff;
+            resize: vertical;
+            overflow-y: auto;
+        }
+        .line-item .line-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 17px;
+        }
+        .metric-field { min-width: 0; }
+        .metric-field label { display: block; margin: 0 0 8px; }
+        .metric-field input[type="number"] {
+            width: 100%; min-height: 62px;
+            font-size: 21px;
+            font-weight: 750;
+            font-variant-numeric: tabular-nums;
+            padding: 12px 15px;
+            background: #fff;
+        }
+        .price-input-wrap { position: relative; }
+        .price-input-wrap input[type="number"] { padding-right: 37px; }
+        .price-suffix {
+            position: absolute; right: 15px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px; font-weight: 700;
+            color: #728197; pointer-events: none;
+        }
+        .line-subtotal {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px;
+            margin-top: 17px;
+            background: #f1f5f9;
+            border-radius: 10px; padding: 13px 15px;
+        }
+        .line-subtotal span { color: #617087; font-size: 13px; font-weight: 650; }
+        .line-subtotal strong { color: #1b344f; font-size: 18px; font-variant-numeric: tabular-nums; }
+        /* Preserve checkboxes and delete actions on terms. */
+        .terms-card { margin-top: 24px; }
+        .section-hint { font-size: 13px; line-height: 1.55; }
+        .term-row { gap: 12px; padding: 14px; border-radius: 12px; }
+        .term-text { min-height: 100px; line-height: 1.65; padding: 14px; resize: vertical; overflow-y: auto; }
+        .term-delete { border-radius: 8px; font-size: 12px; }
+        .btn-add, .term-add {
+            border-radius: 12px;
+            min-height: 53px; font-size: 12px;
+            background: #fbfcff;
+            border-color: #cad5e1;
+        }
+        .btn-add:hover, .term-add:hover { background: #fff8f1; border-color: #eea26f; }
         .footer-nav {
-            background: rgba(255,255,255,.94);
-            border-top: 1px solid rgba(214,224,237,.95);
-            box-shadow: 0 -12px 40px -20px rgba(20,40,69,.25);
+            background: rgba(255,255,255,.97);
+            border-top: 1px solid #dde5ef;
+            box-shadow: 0 -6px 24px rgba(30,46,70,.10);
+            padding: 12px 16px calc(12px + var(--safe-bottom));
         }
-        .footer-inner { max-width: 750px; }
+        .footer-inner { max-width: 786px; }
+        .total-label { font-size: 11px; }
+        .total-amount { font-size: 26px; }
         .btn-pdf {
-            border-radius: 15px;
-            background: linear-gradient(120deg, #16804d, #13a36a);
-            box-shadow: 0 11px 23px -10px rgba(19,137,86,.42);
+            min-height: 55px;
+            border-radius: 11px;
+            background: #168458;
+            box-shadow: none;
         }
-        .btn-pdf:hover { filter: brightness(1.06); }
-        .total-amount { letter-spacing: -.7px; }
-        @media (max-width: 670px) {
-            .header-feature { grid-template-columns: minmax(0,1fr) 150px; gap: 4px; padding-top: 30px; padding-bottom: 36px; }
-            .header-art { transform: scale(.75); transform-origin: center right; }
-            .header-copy h1 { font-size: clamp(37px, 7vw, 48px); }
+        .btn-pdf:hover { background: #11754d; }
+        @media (max-width: 520px) {
+            .topbar-inner { padding: 11px 16px 13px; }
+            .brand-mark { width: 45px; height: 45px; }
+            .brand strong { font-size: 14px; }
+            .header-label { display: none; }
+            .container { padding: 20px 12px calc(180px + var(--safe-bottom)); }
+            .hero h1 { font-size: 25px; }
+            .card, .container > .card, .line-item { padding: 18px 15px; border-radius: 14px; }
+            .line-item .work-description { min-height: 160px; padding: 15px; }
+            .line-item .line-metrics { gap: 10px; }
+            .metric-field input[type="number"] { font-size: 20px; min-height: 60px; padding-left: 12px; padding-right: 12px; }
+            .price-input-wrap input[type="number"] { padding-right: 30px; }
+            .price-suffix { right: 11px; }
+            .remove-btn { right: 15px; top: 18px; }
+            .term-row { padding: 12px; }
+            .footer-nav { padding-left: 12px; padding-right: 12px; }
+            .btn-pdf { font-size: 12px; }
         }
-        @media (max-width: 530px) {
-            .topbar-inner { padding: 17px 17px 11px; }
-            .brand-mark { width: 51px; height: 51px; border-radius: 14px; }
-            .brand strong { font-size: 15px; }
-            .brand-overline { font-size: 8px; letter-spacing: 1.6px; }
-            .header-edition { font-size: 0; gap: 0; padding: 10px; }
-            .header-edition .live-dot { width: 7px; height: 7px; }
-            .header-feature { display: block; padding: 28px 19px 34px; }
-            .header-art { display: none; }
-            .header-copy h1 { font-size: clamp(39px, 10vw, 48px); letter-spacing: -1.8px; margin: 15px 0 13px; }
-            .header-copy > p { font-size: 13px; line-height: 1.6; max-width: 350px; }
-            .header-eyebrow { font-size: 8px; letter-spacing: 1.15px; }
-            .header-steps { gap: 6px; margin-top: 21px; }
-            .header-steps span { padding: 7px 8px; font-size: 10px; gap: 6px; }
-            .container { padding-top: 29px; }
-            .hero h2 { font-size: 27px; }
-            .hero-kicker { font-size: 9px; }
-            .footer-nav { padding-top: 12px; }
+        @media (max-width: 370px) {
+            .line-item .line-metrics { grid-template-columns: minmax(0, 1fr); }
         }
-        @media (prefers-reduced-motion: reduce) {
-            .btn-pdf, .btn-add, .logo-box, .card { transition: none; }
-        }
-    </style>
+        </style>
     <meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified">
     <meta property="og:url" content="https://salmon-jackelyn-28.tiiny.site/" data-id="th-modified">
     <meta property="og:type" content="website" data-id="th-modified">
@@ -612,61 +556,34 @@
             <div class="brand">
                 <span class="brand-mark"><img src="assets/dp-construction-logo.svg" alt="DP Construction"></span>
                 <div class="brand-copy">
-                    <span class="brand-overline">CONSTRUCTION STUDIO</span>
-                    <strong>DP <span>CONSTRUCTION</span></strong>
+                    <strong>DP CONSTRUCTION</strong>
+                    <small>Δημιουργία προσφορών</small>
                 </div>
             </div>
-            <span class="header-edition"><span class="live-dot"></span> OFFER WORKSPACE</span>
-        </div>
-        <div class="header-feature">
-            <div class="header-copy">
-                <div class="header-eyebrow"><span class="eyebrow-line"></span> ΚΑΘΕ ΕΡΓΟ ΞΕΚΙΝΑ ΜΕ ΜΙΑ ΙΔΕΑ</div>
-                <h1>Προσφορές με<br><em>υπογραφή.</em></h1>
-                <p>Από την πρώτη εργασία ως το τελικό PDF. Οργάνωσε την προσφορά σου με τον τρόπο σου.</p>
-                <div class="header-steps" aria-label="Τα τρία βήματα της προσφοράς">
-                    <span><b>01</b> Στοιχεία</span>
-                    <span><b>02</b> Εργασίες</span>
-                    <span><b>03</b> Όροι &amp; PDF</span>
-                </div>
-            </div>
-            <div class="header-art" aria-hidden="true">
-                <div class="art-halo"></div>
-                <div class="art-sheet art-sheet-back"></div>
-                <div class="art-sheet art-sheet-front">
-                    <div class="art-sheet-brand"><span>DP</span><small>CONSTRUCTION</small></div>
-                    <div class="art-rule art-rule-accent"></div>
-                    <div class="art-rule art-rule-long"></div>
-                    <div class="art-rule art-rule-mid"></div>
-                    <div class="art-rule art-rule-short"></div>
-                    <div class="art-total"><span>ΠΡΟΣΦΟΡΑ</span><strong>€</strong></div>
-                </div>
-                <div class="art-spark art-spark-one"></div>
-                <div class="art-spark art-spark-two"></div>
-            </div>
+            <span class="header-label">ΠΡΟΣΦΟΡΕΣ</span>
         </div>
     </header>
 
     <div class="container">
         <div class="hero">
-            <div class="hero-kicker"><span></span> Η ΕΠΟΜΕΝΗ ΣΟΥ ΠΡΟΣΦΟΡΑ</div>
-            <h2>Ξεκίνα από τα βασικά<span>.</span></h2>
-            <p>Συμπλήρωσε τα στοιχεία του έργου και χτίσε την προσφορά σου, βήμα βήμα.</p>
+            <h1>Νέα προσφορά</h1>
+            <p>Συμπλήρωσε τα στοιχεία, τις εργασίες και τις τιμές σου.</p>
         </div>
 
         <div class="card">
             <div class="section-title"><span class="step">1</span>Στοιχεία Προσφοράς</div>
-            <div class="logo-box" onclick="document.getElementById('logoInput').click()">
-                <img id="logoPreview" src="assets/dp-construction-logo.svg" alt="Logo Preview">
-                <span class="logo-hint">ΚΛΙΚ ΓΙΑ ΑΛΛΑΓΗ ΛΟΓΟΤΥΠΟΥ</span>
-            </div>
+            <button type="button" class="logo-box" onclick="document.getElementById('logoInput').click()" aria-label="Αλλαγή λογότυπου">
+                <img id="logoPreview" src="assets/dp-construction-logo.svg" alt="Λογότυπο DP Construction">
+                <span class="logo-hint">Αλλαγή λογότυπου</span>
+            </button>
             <input type="file" id="logoInput" style="display: none;" accept="image/*"
                 onchange="handleLogoUpload(event)">
 
-            <label>Τίτλος Έργου / Προσφοράς</label>
+            <label for="offerTitle">Τίτλος Έργου / Προσφοράς</label>
             <input type="text" id="offerTitle" placeholder="π.χ. ΑΝΑΠΛΑΣΗ ΑΘΛΗΤΙΚΟΥ ΚΕΝΤΡΟΥ" autocapitalize="characters" enterkeyhint="next">
-            <label>Στοιχεία Πελάτη</label>
+            <label for="clientName">Στοιχεία Πελάτη</label>
             <input type="text" id="clientName" placeholder="π.χ. ΔΗΜΟΣ ΠΑΤΡΕΩΝ - ΤΕΧΝΙΚΗ ΥΠΗΡΕΣΙΑ" autocapitalize="characters" enterkeyhint="next">
-            <label>Ημερομηνία Προσφοράς</label>
+            <label for="offerDate">Ημερομηνία Προσφοράς</label>
             <input type="date" id="offerDate">
         </div>
 
@@ -749,12 +666,13 @@
             div.id = `line-${id}`;
             div.innerHTML = `
             <span class="remove-btn" onclick="removeLine(${id})">ΔΙΑΓΡΑΦΗ</span>
-            <label>ΑΝΑΛΥΤΙΚΗ ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
-            <textarea id="desc-${id}" oninput="updateTotal()" rows="4" style="line-height:1.5">${text}</textarea>
-            <div style="display:flex; gap:15px; margin-top:10px;">
-                <div style="flex:1"><label>ΠΟΣΟΤΗΤΑ</label><input type="number" id="qty-${id}" value="1" oninput="updateTotal()"></div>
-                <div style="flex:1"><label>ΤΙΜΗ ΜΟΝΑΔΟΣ (€)</label><input type="number" id="price-${id}" value="0" oninput="updateTotal()"></div>
+            <label for="desc-${id}">ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
+            <textarea id="desc-${id}" class="work-description" oninput="updateTotal()" rows="5" placeholder="Γράψε την περιγραφή της εργασίας...">${text}</textarea>
+            <div class="line-metrics">
+                <div class="metric-field"><label for="qty-${id}">ΠΟΣΟΤΗΤΑ</label><input type="number" id="qty-${id}" value="1" step="any" inputmode="decimal" oninput="updateTotal()" aria-label="Ποσότητα εργασίας"></div>
+                <div class="metric-field"><label for="price-${id}">ΤΙΜΗ ΜΟΝΑΔΑΣ (€)</label><div class="price-input-wrap"><input type="number" id="price-${id}" value="0" step="any" inputmode="decimal" oninput="updateTotal()" aria-label="Τιμή μονάδας σε ευρώ"><span class="price-suffix" aria-hidden="true">€</span></div></div>
             </div>
+            <div class="line-subtotal" aria-live="polite"><span>Σύνολο εργασίας</span><strong id="lineTotal-${id}">0,00 €</strong></div>
         `;
             container.appendChild(div);
             updateTotal();
@@ -766,7 +684,10 @@
             let total = 0;
             document.querySelectorAll('[id^="desc-"]').forEach(el => {
                 const id = el.id.split('-')[1];
-                total += (parseFloat(document.getElementById(`qty-${id}`).value) || 0) * (parseFloat(document.getElementById(`price-${id}`).value) || 0);
+                const lineTotal = (parseFloat(document.getElementById(`qty-${id}`).value) || 0) * (parseFloat(document.getElementById(`price-${id}`).value) || 0);
+                total += lineTotal;
+                const lineTotalDisplay = document.getElementById(`lineTotal-${id}`);
+                if (lineTotalDisplay) lineTotalDisplay.textContent = lineTotal.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
             });
             document.getElementById('uiTotal').innerText = total.toLocaleString('el-GR', { minimumFractionDigits: 2 });
         }
@@ -1028,7 +949,7 @@
             }
             function enhance(root) {
                 root.querySelectorAll('[id^="qty-"]').forEach(function (el) {
-                    el.setAttribute('inputmode', 'numeric');
+                    el.setAttribute('inputmode', 'decimal');
                     el.setAttribute('pattern', '[0-9]*');
                     el.setAttribute('enterkeyhint', 'next');
                 });
