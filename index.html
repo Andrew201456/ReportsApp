@@ -758,6 +758,98 @@
         .install-dialog-close { color:#d3e1f1; }
         .install-dialog-dismiss { background:#315276; color:#fff; }
         .install-dialog-dismiss:hover { background:#3b658e; }
+
+        /* Cleaner typography for long offer descriptions and editable terms. */
+        .hero h1 { font-size:clamp(26px,6vw,31px);line-height:1.18;letter-spacing:-.6px;font-weight:800 }
+        .hero p { max-width:570px;font-size:14px;line-height:1.65 }
+        .section-title { text-transform:none;font-size:14px;letter-spacing:.05px;font-weight:780;line-height:1.4 }
+        .section-hint { font-size:13px;line-height:1.62;font-weight:450 }
+        .card label,.line-item>label,.metric-field label {
+            font-size:12px;letter-spacing:.04px;font-weight:710;text-transform:none;line-height:1.4
+        }
+        .card input,.card textarea,.line-item input,.line-item textarea {
+            letter-spacing:0;font-weight:450;line-height:1.57
+        }
+        .line-item .work-description {font-size:15px;line-height:1.7}
+        .metric-field input[type="text"][id^="price-"] {
+            width:100%;min-height:62px;border-radius:12px;box-sizing:border-box;
+            padding:12px 37px 12px 13px;font-size:20px;font-weight:700;
+            font-variant-numeric:tabular-nums;caret-color:var(--accent)
+        }
+        .metric-field input[id^="price-"]::placeholder {
+            color:var(--muted);opacity:.7;font-size:15px;font-weight:400
+        }
+        .metric-field input[id^="price-"].price-invalid {
+            border-color:#cf776b;box-shadow:0 0 0 2px rgba(207,119,107,.13)
+        }
+        .line-subtotal {padding:12px 14px;gap:10px}
+        .line-subtotal strong {font-weight:740}
+        .total-amount {display:flex;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums}
+        #uiTotalCurrency {font-size:.68em;color:inherit}
+
+        /* Terms: easy-to-tap tick and better text hierarchy. */
+        #terms-container {gap:10px}
+        .terms-card .term-row {
+            display:flex;flex-direction:column;gap:11px;padding:14px;
+            border:1px solid #354e6c;border-radius:15px;
+            background:#11243b;box-shadow:none;
+            transition:border-color .18s ease,background-color .18s ease
+        }
+        .terms-card .term-row.is-enabled {background:#162e49;border-color:#57779b}
+        .terms-card .term-row:not(.is-enabled) {background:#102035;border-color:#304963}
+        .term-header {display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+        .terms-card .term-toggle {
+            display:flex;align-items:center;gap:11px;cursor:pointer;flex:1;min-width:0;
+            min-height:48px;margin:0;padding:0;color:#f0f6ff;
+            text-transform:none;letter-spacing:0;user-select:none;-webkit-user-select:none
+        }
+        .terms-card .term-checkbox {
+            width:27px;height:27px;min-height:27px;flex:0 0 27px;
+            margin:0;padding:0;border:1.5px solid #8098b2;border-radius:9px;
+            background:#0b1d32;box-shadow:none;position:relative;
+            -webkit-appearance:none;appearance:none
+        }
+        .terms-card .term-checkbox:checked {
+            background:#91c6fd;border-color:#91c6fd;box-shadow:none
+        }
+        .terms-card .term-checkbox:checked::after {
+            content:"";position:absolute;left:9px;top:4px;width:6px;height:12px;
+            border:solid #10243a;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)
+        }
+        .terms-card .term-checkbox:focus-visible {outline:3px solid #89baf1;outline-offset:3px}
+        .term-toggle-copy {display:flex;flex-direction:column;gap:2px;min-width:0}
+        .term-toggle-copy strong {font-size:13px;font-weight:740;line-height:1.35;color:#f4f8ff}
+        .term-toggle-copy small {font-size:11px;font-weight:450;line-height:1.4;color:#a8c0da}
+        .terms-card .term-row:not(.is-enabled) .term-toggle-copy strong {color:#c0cee0}
+        .terms-card .term-text {
+            display:block;flex:none;width:100%;min-height:96px;
+            box-sizing:border-box;resize:vertical;margin:0;padding:13px 14px;
+            grid-column:auto;grid-row:auto;border-radius:12px;
+            font-size:14px;line-height:1.7;font-weight:450;opacity:1!important;
+            background:#0c2035;color:#f5f8fc;border:1px solid #3b5572
+        }
+        .terms-card .term-row:not(.is-enabled) .term-text {opacity:1!important}
+        .terms-card .term-text:focus {
+            border-color:#8ebcf0;background:#102840;box-shadow:0 0 0 3px rgba(123,178,236,.12)
+        }
+        .terms-card .term-delete {
+            flex:none;height:38px;min-height:38px;padding:0 11px;
+            grid-column:auto;grid-row:auto;justify-self:auto;margin:0;
+            border:1px solid #4b607b;border-radius:9px;
+            background:transparent;color:#bdcee0;font-size:12px;
+            font-weight:620;letter-spacing:0;text-transform:none
+        }
+        .terms-card .term-delete:hover {background:#263e58;color:#fff;border-color:#738ba5}
+        .btn-add,.term-add {font-size:13px;font-weight:720;letter-spacing:.05px;text-transform:none}
+        @media(max-width:430px){
+            .terms-card .term-row {padding:12px;gap:10px}
+            .terms-card .term-toggle {gap:9px}
+            .term-toggle-copy strong {font-size:12px}
+            .terms-card .term-delete {padding:0 9px;font-size:11px}
+            .metric-field input[type="text"][id^="price-"] {
+                font-size:18px;min-height:58px;padding-right:30px
+            }
+        }
     </style>
 </head>
 
@@ -783,7 +875,7 @@
     <div class="container">
         <div class="hero">
             <h1>Νέα προσφορά</h1>
-            <p>Συμπλήρωσε τα στοιχεία, τις εργασίες και τις τιμές σου.</p>
+            <p>Οργάνωσε τις εργασίες, πρόσθεσε τιμές όποτε είσαι έτοιμος και διάλεξε τους όρους της προσφοράς.</p>
         </div>
 
         <div class="card">
@@ -795,23 +887,23 @@
             <input type="file" id="logoInput" style="display: none;" accept="image/*"
                 onchange="handleLogoUpload(event)">
 
-            <label for="offerTitle">Τίτλος Έργου / Προσφοράς</label>
+            <label for="offerTitle">Τίτλος έργου / προσφοράς</label>
             <input type="text" id="offerTitle" placeholder="π.χ. ΑΝΑΠΛΑΣΗ ΑΘΛΗΤΙΚΟΥ ΚΕΝΤΡΟΥ" autocapitalize="characters" enterkeyhint="next">
-            <label for="clientName">Στοιχεία Πελάτη</label>
+            <label for="clientName">Στοιχεία πελάτη</label>
             <input type="text" id="clientName" placeholder="π.χ. ΔΗΜΟΣ ΠΑΤΡΕΩΝ - ΤΕΧΝΙΚΗ ΥΠΗΡΕΣΙΑ" autocapitalize="characters" enterkeyhint="next">
-            <label for="offerDate">Ημερομηνία Προσφοράς</label>
+            <label for="offerDate">Ημερομηνία προσφοράς</label>
             <input type="date" id="offerDate">
         </div>
 
         <div class="section-title"><span class="step">2</span>Εργασίες &amp; Τιμές</div>
         <div id="items-container"></div>
-        <button class="btn-add" onclick="addLine()">+ ΠΡΟΣΘΗΚΗ ΝΕΑΣ ΕΝΟΤΗΤΑΣ</button>
+        <button class="btn-add" onclick="addLine()">+ Προσθήκη εργασίας</button>
 
         <div class="card terms-card">
             <div class="section-title"><span class="step">3</span>Γενικοί Όροι &amp; Παρατηρήσεις</div>
-            <p class="section-hint">Τσέκαρε τους όρους που θέλεις να εμφανίζονται στο PDF.</p>
+            <p class="section-hint">Επίλεξε τους όρους που θα περιλαμβάνει η προσφορά και επεξεργάσου το κείμενό τους.</p>
             <div id="terms-container"></div>
-            <button type="button" class="term-add" onclick="addTerm()">+ ΠΡΟΣΘΗΚΗ ΝΕΟΥ ΟΡΟΥ</button>
+            <button type="button" class="term-add" onclick="addTerm()">+ Προσθήκη όρου</button>
         </div>
     </div>
 
@@ -827,7 +919,7 @@
         <div class="footer-inner">
             <div class="total-row">
                 <span class="total-label">ΣΥΝΟΛΟ ΚΑΘΑΡΗΣ ΑΞΙΑΣ</span>
-                <div class="total-amount"><span id="uiTotal">0.00</span>€</div>
+                <div class="total-amount"><span id="uiTotal">—</span><span id="uiTotalCurrency"></span></div>
             </div>
             <button class="btn-pdf" onclick="generatePDF()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
@@ -889,14 +981,14 @@
             div.className = 'card line-item';
             div.id = `line-${id}`;
             div.innerHTML = `
-            <button type="button" class="remove-btn" onclick="removeLine(${id})" aria-label="Διαγραφή ενότητας εργασίας">ΔΙΑΓΡΑΦΗ</button>
-            <label for="desc-${id}">ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ</label>
+            <button type="button" class="remove-btn" onclick="removeLine(${id})" aria-label="Διαγραφή ενότητας εργασίας">Αφαίρεση</button>
+            <label for="desc-${id}">Περιγραφή εργασίας</label>
             <textarea id="desc-${id}" class="work-description" oninput="updateTotal()" rows="5" placeholder="Γράψε την περιγραφή της εργασίας...">${text}</textarea>
             <div class="line-metrics">
-                <div class="metric-field"><label for="qty-${id}">ΠΟΣΟΤΗΤΑ</label><input type="number" id="qty-${id}" value="1" step="any" inputmode="decimal" oninput="updateTotal()" aria-label="Ποσότητα εργασίας"></div>
-                <div class="metric-field"><label for="price-${id}">ΤΙΜΗ ΜΟΝΑΔΑΣ (€)</label><div class="price-input-wrap"><input type="number" id="price-${id}" value="0" step="any" inputmode="decimal" oninput="updateTotal()" aria-label="Τιμή μονάδας σε ευρώ"><span class="price-suffix" aria-hidden="true">€</span></div></div>
+                <div class="metric-field"><label for="qty-${id}">Ποσότητα</label><input type="number" id="qty-${id}" value="1" step="any" inputmode="decimal" oninput="updateTotal()" aria-label="Ποσότητα εργασίας"></div>
+                <div class="metric-field"><label for="price-${id}">Τιμή μονάδας (€)</label><div class="price-input-wrap"><input type="text" id="price-${id}" inputmode="decimal" autocomplete="off" placeholder="π.χ. 150,00" onfocus="this.select()" oninput="updateTotal()" aria-label="Τιμή μονάδας σε ευρώ"><span class="price-suffix" aria-hidden="true">€</span></div></div>
             </div>
-            <div class="line-subtotal" aria-live="polite"><span>Σύνολο εργασίας</span><strong id="lineTotal-${id}">0,00 €</strong></div>
+            <div class="line-subtotal" aria-live="polite"><span>Σύνολο εργασίας</span><strong id="lineTotal-${id}">—</strong></div>
         `;
             container.appendChild(div);
             updateTotal();
@@ -904,16 +996,44 @@
 
         function removeLine(id) { document.getElementById(`line-${id}`).remove(); updateTotal(); }
 
+        // A price is optional; accept Greek commas without changing the caret while typing.
+        function parseEuroPrice(value) {
+            let raw=String(value == null ? '' : value).trim().replace(/[\s\u00a0€]/g,'');
+            if (!raw) return null;
+            if (raw.includes(',')) {
+                if (!/^\d{1,3}(?:\.\d{3})*(?:,\d{0,2})?$/.test(raw) &&
+                    !/^\d+(?:,\d{0,2})?$/.test(raw)) return null;
+                raw=raw.replace(/\./g,'').replace(',','.');
+            } else if (/^\d{1,3}(?:\.\d{3})+$/.test(raw)) {
+                raw=raw.replace(/\./g,'');
+            }
+            if (!/^\d+(?:\.\d{0,2})?$/.test(raw)) return null;
+            const amount=Number(raw);
+            return Number.isFinite(amount) && amount>=0 && amount<=1e12 ? amount : null;
+        }
         function updateTotal() {
-            let total = 0;
-            document.querySelectorAll('[id^="desc-"]').forEach(el => {
-                const id = el.id.split('-')[1];
-                const lineTotal = (parseFloat(document.getElementById(`qty-${id}`).value) || 0) * (parseFloat(document.getElementById(`price-${id}`).value) || 0);
-                total += lineTotal;
-                const lineTotalDisplay = document.getElementById(`lineTotal-${id}`);
-                if (lineTotalDisplay) lineTotalDisplay.textContent = lineTotal.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+            let total=0,hasPrice=false;
+            document.querySelectorAll('[id^="desc-"]').forEach(el=>{
+                const id=el.id.split('-')[1];
+                const field=document.getElementById('price-'+id);
+                const price=parseEuroPrice(field.value);
+                const q=Number(document.getElementById('qty-'+id).value);
+                const qty=Number.isFinite(q)&&q>=0?q:0;
+                field.classList.toggle('price-invalid',price===null&&field.value.trim()!=='');
+                const output=document.getElementById('lineTotal-'+id);
+                if(price===null){
+                    if(output)output.textContent='—';
+                }else{
+                    const line=qty*price;
+                    total+=line;hasPrice=true;
+                    if(output)output.textContent=line.toLocaleString('el-GR',{
+                        minimumFractionDigits:2,maximumFractionDigits:2
+                    })+' €';
+                }
             });
-            document.getElementById('uiTotal').innerText = total.toLocaleString('el-GR', { minimumFractionDigits: 2 });
+            document.getElementById('uiTotal').textContent=hasPrice ?
+                total.toLocaleString('el-GR',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—';
+            document.getElementById('uiTotalCurrency').textContent=hasPrice?'€':'';
         }
 
         async function generatePDF() {
@@ -950,19 +1070,21 @@
                 ]
             ];
 
-            let grandTotal = 0;
-            document.querySelectorAll('[id^="desc-"]').forEach((el, index) => {
-                const id = el.id.split('-')[1];
-                const q = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
-                const p = parseFloat(document.getElementById(`price-${id}`).value) || 0;
-                const sub = q * p;
-                grandTotal += sub;
-
+            let grandTotal=0,hasPricedItem=false,hasUnpricedItem=false;
+            document.querySelectorAll('[id^="desc-"]').forEach(el=>{
+                const id=el.id.split('-')[1];
+                const q=parseFloat(document.getElementById('qty-'+id).value)||0;
+                const p=parseEuroPrice(document.getElementById('price-'+id).value);
+                const priced=p!==null;
+                const sub=priced?q*p:null;
+                if(priced){grandTotal+=sub;hasPricedItem=true;}
+                else hasUnpricedItem=true;
+                const euro=n=>n.toLocaleString('el-GR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
                 tableRows.push([
-                    { text: el.value, margin: [0, 8, 0, 8], fontSize: 10, lineHeight: 1.4, verticalAlign: 'middle', alignment: 'left' },
-                    { text: q.toString(), alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
-                    { text: p.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', margin: [0, 8, 0, 8], verticalAlign: 'middle' },
-                    { text: sub.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', alignment: 'center', bold: true, color: '#1e293b', margin: [0, 8, 0, 8], verticalAlign: 'middle' }
+                    {text:el.value,margin:[0,8,0,8],fontSize:10,lineHeight:1.4,verticalAlign:'middle',alignment:'left'},
+                    {text:q.toString(),alignment:'center',margin:[0,8,0,8],verticalAlign:'middle'},
+                    {text:priced?euro(p):'—',alignment:'center',margin:[0,8,0,8],verticalAlign:'middle'},
+                    {text:priced?euro(sub):'—',alignment:'center',bold:true,color:'#1e293b',margin:[0,8,0,8],verticalAlign:'middle'}
                 ]);
             });
 
@@ -1048,8 +1170,8 @@
                             { text: '' },
                             {
                                 stack: [
-                                    { text: 'ΣΥΝΟΛΙΚΟ ΚΟΣΤΟΣ ΕΠΕΝΔΥΣΗΣ (ΠΡΟ ΦΠΑ 24%)', fontSize: 9, color: '#64748b', bold: true, margin: [0, 0, 0, 5] },
-                                    { text: grandTotal.toLocaleString('el-GR', { minimumFractionDigits: 2 }) + ' €', fontSize: 24, bold: true, color: '#f97316' }
+                                    { text: hasUnpricedItem ? 'ΣΥΝΟΛΟ ΚΑΤΑΧΩΡΗΜΕΝΩΝ ΤΙΜΩΝ (ΠΡΟ ΦΠΑ 24%)' : 'ΣΥΝΟΛΙΚΟ ΚΟΣΤΟΣ ΕΠΕΝΔΥΣΗΣ (ΠΡΟ ΦΠΑ 24%)', fontSize: 9, color: '#64748b', bold: true, margin: [0, 0, 0, 5] },
+                                    { text: hasPricedItem ? grandTotal.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €' : '—', fontSize: 24, bold: true, color: '#f97316' }
                                 ], alignment: 'right'
                             }
                         ]
@@ -1115,26 +1237,42 @@
             const container = document.getElementById('terms-container');
             const row = document.createElement('div');
             row.className = 'term-row';
-
+            const header = document.createElement('div');
+            header.className = 'term-header';
+            const toggle = document.createElement('label');
+            toggle.className = 'term-toggle';
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'term-checkbox';
             checkbox.checked = isChecked;
-
+            const copy = document.createElement('span');
+            copy.className = 'term-toggle-copy';
+            const title = document.createElement('strong');
+            title.textContent = 'Εμφάνιση στην προσφορά';
+            const state = document.createElement('small');
+            state.className = 'term-toggle-status';
+            copy.append(title, state);
+            toggle.append(checkbox, copy);
+            function refreshStatus() {
+                row.classList.toggle('is-enabled', checkbox.checked);
+                state.textContent = checkbox.checked ? 'Θα εμφανιστεί στο PDF' : 'Δεν θα εμφανιστεί στο PDF';
+            }
+            checkbox.addEventListener('change', refreshStatus);
+            refreshStatus();
             const textarea = document.createElement('textarea');
             textarea.className = 'term-text';
-            textarea.rows = 2;
+            textarea.rows = 3;
             textarea.value = text;
-            textarea.placeholder = 'Γράψτε τον γενικό όρο ή την παρατήρηση...';
-
+            textarea.placeholder = 'Γράψε τον γενικό όρο ή την παρατήρηση…';
+            textarea.setAttribute('aria-label', 'Κείμενο όρου προσφοράς');
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button';
             deleteButton.className = 'term-delete';
-            deleteButton.textContent = 'ΔΙΑΓΡΑΦΗ';
+            deleteButton.textContent = 'Αφαίρεση';
             deleteButton.setAttribute('aria-label', 'Διαγραφή όρου');
             deleteButton.addEventListener('click', () => row.remove());
-
-            row.append(checkbox, textarea, deleteButton);
+            header.append(toggle, deleteButton);
+            row.append(header, textarea);
             container.appendChild(row);
         }
 
