@@ -1,5 +1,5 @@
 /* DP Construction PWA: keep the app shell available without altering form/PDF logic. */
-const CACHE_NAME = 'dp-construction-shell-v4';
+const CACHE_NAME = 'dp-construction-shell-v5';
 const APP_SHELL = [
     './', './index.html', './manifest.webmanifest',
     './assets/dp-construction-logo.svg',
